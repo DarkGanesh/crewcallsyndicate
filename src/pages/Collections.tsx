@@ -1,11 +1,10 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { 
   Film, Camera, Headphones, Mic, Speaker, Scissors, Truck, 
   BatteryCharging, Users, FileEdit, Palette, Briefcase, 
-  Sparkles, Shirt, Clapper, FlaskConical, Dumbbell 
+  Sparkles, Shirt, Clapperboard, FlaskConical, Dumbbell 
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -129,7 +128,7 @@ const Collections = () => {
       quote: "\"Ce rôle demande quelqu'un avec plus de... présence.\"",
     },
     {
-      icon: <Clapper className="h-6 w-6 text-cinema-red" />,
+      icon: <Clapperboard className="h-6 w-6 text-cinema-red" />,
       title: "Mise en Scène",
       description: "Écharpes, carnets et accessoires pour réalisateurs et assistants réal.",
       quote: "\"Je la vois autrement cette scène, on va la reprendre.\"",
@@ -172,7 +171,6 @@ const Collections = () => {
     <div className="min-h-screen flex flex-col bg-cinema-black">
       <Navbar />
       <main className="flex-grow">
-        {/* Hero Banner */}
         <div className="relative bg-cinema-darkgray py-16 border-b border-cinema-red/20 overflow-hidden">
           <div className="absolute inset-0 opacity-20">
             <img 
@@ -198,7 +196,6 @@ const Collections = () => {
           </div>
         </div>
 
-        {/* Filter Section */}
         <div className="py-8 bg-cinema-black border-b border-cinema-darkgray">
           <div className="cinema-container">
             <div className="flex flex-wrap items-center gap-3">
@@ -231,7 +228,6 @@ const Collections = () => {
           </div>
         </div>
 
-        {/* Job Categories Grid */}
         <div className="py-12 bg-cinema-black">
           <div className="cinema-container">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -242,7 +238,6 @@ const Collections = () => {
           </div>
         </div>
 
-        {/* Flight Case Style Section */}
         <div className="py-16 bg-cinema-darkgray relative overflow-hidden">
           <div className="absolute inset-0 opacity-10">
             <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
@@ -280,7 +275,6 @@ const Collections = () => {
           </div>
         </div>
 
-        {/* Coming Soon Banner */}
         <div className="py-16 bg-cinema-black border-t border-cinema-red/20">
           <div className="cinema-container text-center">
             <h2 className="text-2xl font-bold text-white mb-4">
