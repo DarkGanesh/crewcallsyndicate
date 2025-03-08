@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, ChevronUp, ShoppingCart, Customize } from 'lucide-react';
+import { ChevronDown, ChevronUp, ShoppingCart, Pencil } from 'lucide-react';
 
 interface PriceOption {
   quantity: number;
@@ -54,7 +54,7 @@ const ProductCard = ({
         
         {customizable && (
           <div className="absolute top-2 right-2 bg-cinema-red text-white text-xs px-2 py-1 rounded-full flex items-center">
-            <Customize className="h-3 w-3 mr-1" />
+            <Pencil className="h-3 w-3 mr-1" />
             Personnalisable
           </div>
         )}
