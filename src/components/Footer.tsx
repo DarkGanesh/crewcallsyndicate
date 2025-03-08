@@ -11,7 +11,7 @@ const Footer = () => {
           <div className="flex flex-col space-y-4">
             <Link to="/" className="flex items-center space-x-2">
               <Film className="h-8 w-8 text-cinema-red" />
-              <span className="text-xl font-bold text-white">Cinema<span className="text-cinema-red">Merch</span></span>
+              <span className="text-xl font-bold text-white">Crew<span className="text-cinema-red">Call</span>Syndicate</span>
             </Link>
             <p className="text-gray-400 text-sm">
               Votre partenaire pour des goodies professionnels et personnalisés dédiés aux métiers du cinéma.
@@ -65,7 +65,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="mt-12 pt-6 border-t border-gray-800 text-center">
           <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} CinemaMerch. Tous droits réservés.
+            © {new Date().getFullYear()} CrewCallSyndicate. Tous droits réservés.
           </p>
         </div>
       </div>
