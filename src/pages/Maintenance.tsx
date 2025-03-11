@@ -3,9 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Construction } from "lucide-react";
+import { Film } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import Footer from "@/components/Footer";
 
 const Maintenance = () => {
   const [password, setPassword] = useState("");
@@ -45,19 +44,19 @@ const Maintenance = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-cinema-black">
+    <div className="fixed inset-0 min-h-screen flex flex-col bg-cinema-black z-50">
       <main className="flex-grow flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-cinema-darkgray p-8 rounded-lg border border-cinema-red/20 shadow-lg">
           <div className="flex justify-center mb-6">
             <div className="p-3 bg-cinema-red/10 rounded-full">
-              <Construction className="h-10 w-10 text-cinema-red" />
+              <Film className="h-10 w-10 text-cinema-red" />
             </div>
           </div>
           
           <h1 className="text-3xl font-bold text-white text-center mb-2">Site en Maintenance</h1>
           <p className="text-gray-300 text-center mb-8">
-            Notre site est actuellement en cours de maintenance. 
-            Veuillez saisir le mot de passe pour accéder au contenu.
+            "Le cinéma, c'est l'écriture moderne dont l'encre est la lumière."<br />
+            <span className="text-sm italic">- Notre site fait sa propre mise en scène, revenez bientôt!</span>
           </p>
           
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -73,7 +72,7 @@ const Maintenance = () => {
             
             <Button 
               type="submit" 
-              className="w-full button-cinema" 
+              className="w-full bg-cinema-red hover:bg-cinema-red/90 text-white font-bold" 
               disabled={isLoading}
             >
               {isLoading ? "Vérification..." : "Accéder au site"}
@@ -81,7 +80,6 @@ const Maintenance = () => {
           </form>
         </div>
       </main>
-      <Footer />
     </div>
   );
 };
