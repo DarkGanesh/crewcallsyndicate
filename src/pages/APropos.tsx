@@ -47,7 +47,7 @@ const APropos = () => {
               <div className="w-full md:w-1/2">
                 <div className="relative h-80 rounded-lg overflow-hidden">
                   <img 
-                    src="https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                     alt="L'histoire de CrewCallSyndicate" 
                     className="w-full h-full object-cover"
                   />
