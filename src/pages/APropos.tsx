@@ -45,7 +45,7 @@ const APropos = () => {
               </div>
               
               <div className="w-full md:w-1/2">
-                <div className="relative h-80 rounded-lg overflow-hidden">
+                <div className="relative h-full min-h-[400px] md:min-h-[500px] rounded-lg overflow-hidden">
                   <img 
                     src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                     alt="L'histoire de CrewCallSyndicate" 
