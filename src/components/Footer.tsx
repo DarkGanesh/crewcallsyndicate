@@ -1,6 +1,5 @@
-
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Film, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Mail, Phone, Film, Instagram, Facebook, Twitter } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -47,12 +46,8 @@ const Footer = () => {
             <h3 className="text-white text-lg font-bold">Contact</h3>
             <div className="flex flex-col space-y-2">
               <div className="flex items-center space-x-2 text-gray-400">
-                <MapPin className="h-4 w-4 text-cinema-red" />
-                <span>Studio City, 75020 Paris</span>
-              </div>
-              <div className="flex items-center space-x-2 text-gray-400">
                 <Phone className="h-4 w-4 text-cinema-red" />
-                <span>+33 (0)1 23 45 67 89</span>
+                <span>06 38 66 21 09</span>
               </div>
               <div className="flex items-center space-x-2 text-gray-400">
                 <Mail className="h-4 w-4 text-cinema-red" />

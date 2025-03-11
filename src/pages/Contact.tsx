@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -54,23 +53,11 @@ const Contact = () => {
                 
                 <div className="space-y-6">
                   <div className="flex items-start">
-                    <MapPin className="h-6 w-6 text-cinema-red mr-3 mt-0.5" />
-                    <div>
-                      <h3 className="text-white font-medium">Adresse</h3>
-                      <p className="text-gray-400 text-sm">
-                        Studio City<br />
-                        34 Rue du Cinéma<br />
-                        75020 Paris, France
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
                     <Phone className="h-6 w-6 text-cinema-red mr-3 mt-0.5" />
                     <div>
                       <h3 className="text-white font-medium">Téléphone</h3>
                       <p className="text-gray-400 text-sm">
-                        +33 (0)1 23 45 67 89
+                        06 38 66 21 09
                       </p>
                     </div>
                   </div>
