@@ -28,22 +28,27 @@ const APropos = () => {
             <div className="flex flex-col md:flex-row gap-12">
               <div className="w-full md:w-1/2 space-y-6">
                 <h2 className="text-3xl font-bold text-white">Notre <span className="text-cinema-red">Histoire</span></h2>
-                <p className="text-gray-400">
-                  CinemaMerch est né de la passion pour le 7ème art et d'une observation: l'industrie du cinéma manquait de goodies personnalisés de qualité, adaptés aux besoins spécifiques des équipes de tournage et des productions.
-                </p>
-                <p className="text-gray-400">
-                  Fondée en 2019 par deux professionnels du cinéma, notre entreprise s'est rapidement imposée comme la référence en matière de merchandising personnalisé pour l'industrie cinématographique française.
-                </p>
-                <p className="text-gray-400">
-                  Aujourd'hui, nous fournissons plus de 200 productions par an, des festivals de cinéma et des écoles de cinéma à travers toute la France.
-                </p>
+                <div className="space-y-4 text-gray-400">
+                  <p>
+                    Depuis toujours, le cinéma a été ma grande passion. Les plateaux de tournage, les caméras qui roulent, les projecteurs braqués sur l'action… Tout me fascinait. Je rêvais de faire partie de cette industrie, d'être au cœur de la création, de contribuer à donner vie aux histoires sur grand écran.
+                  </p>
+                  <p>
+                    Mais la réalité m'a rattrapé. Au lieu de crier "Action !", j'ai fini par gérer des impressions de cartes de visite, d'affiches et de goodies personnalisés. À défaut de voir mon nom au générique d'un film, il s'est retrouvé sur des factures et des commandes d'impression.
+                  </p>
+                  <p>
+                    Plutôt que d'abandonner mon amour pour le cinéma, j'ai décidé de l'intégrer à mon métier. C'est ainsi qu'est né CrewCallSyndicate en 2025 : un projet qui fusionne mon obsession pour le septième art avec le monde de l'impression. Ici, on ne tourne pas de films, mais on imprime tout ce qu'il faut pour les équipes de tournage, des t-shirts aux accessoires personnalisés, pour que chaque crew puisse afficher fièrement son appartenance à un projet.
+                  </p>
+                  <p>
+                    Parce qu'au fond, que l'on soit derrière une caméra ou une presse numérique, on fait tous partie de la même aventure : raconter une histoire.
+                  </p>
+                </div>
               </div>
               
               <div className="w-full md:w-1/2">
                 <div className="relative h-80 rounded-lg overflow-hidden">
                   <img 
                     src="https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                    alt="L'équipe de CinemaMerch" 
+                    alt="L'histoire de CrewCallSyndicate" 
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -87,29 +92,6 @@ const APropos = () => {
                   Chaque projet est unique et reçoit une attention particulière de notre équipe dédiée, de la conception à la livraison.
                 </p>
               </div>
-            </div>
-          </div>
-        </section>
-        
-        {/* Team Section */}
-        <section className="py-16 bg-cinema-darkgray">
-          <div className="cinema-container">
-            <h2 className="text-3xl font-bold text-white text-center mb-4">Notre <span className="text-cinema-red">Équipe</span></h2>
-            <p className="text-gray-400 text-center max-w-2xl mx-auto mb-12">
-              Une équipe passionnée de professionnels, alliant expertise du merchandising et connaissance approfondie de l'industrie cinématographique.
-            </p>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-cinema-black p-4 rounded-lg border border-gray-800">
-                  <div className="aspect-square rounded-lg overflow-hidden mb-4 bg-gray-900"></div>
-                  <h3 className="text-white font-bold">Membre de l'équipe</h3>
-                  <p className="text-cinema-red text-sm mb-2">Poste dans l'entreprise</p>
-                  <p className="text-gray-500 text-sm line-clamp-3">
-                    Description du membre de l'équipe à venir...
-                  </p>
-                </div>
-              ))}
             </div>
           </div>
         </section>
