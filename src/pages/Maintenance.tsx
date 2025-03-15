@@ -1,52 +1,16 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Film, Clapperboard, Camera, Video } from "lucide-react";
+import { Film } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Maintenance = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [iconIndex, setIconIndex] = useState(0);
   const navigate = useNavigate();
   const { toast } = useToast();
-  
-  const cinemaQuotes = [
-    "\"Le cinéma, c'est l'écriture moderne dont l'encre est la lumière.\" — Jean Cocteau",
-    "\"Le cinéma, c'est un œil ouvert sur le monde.\" — Joseph Bédier",
-    "\"Un film est une réalité qui défile à vingt-quatre images par seconde.\" — Jean-Luc Godard",
-    "\"Le cinéma, c'est l'art de montrer.\" — Alfred Hitchcock"
-  ];
-  
-  const [currentQuote, setCurrentQuote] = useState(cinemaQuotes[0]);
-  
-  // Animation pour changer la citation toutes les 10 secondes
-  useEffect(() => {
-    const quoteInterval = setInterval(() => {
-      const nextIndex = (cinemaQuotes.indexOf(currentQuote) + 1) % cinemaQuotes.length;
-      setCurrentQuote(cinemaQuotes[nextIndex]);
-    }, 10000);
-    
-    return () => clearInterval(quoteInterval);
-  }, [currentQuote, cinemaQuotes]);
-  
-  // Animation pour alterner les icônes
-  useEffect(() => {
-    const iconInterval = setInterval(() => {
-      setIconIndex((prev) => (prev + 1) % 4);
-    }, 3000);
-    
-    return () => clearInterval(iconInterval);
-  }, []);
-  
-  const icons = [
-    <Film key="film" className="h-10 w-10 text-cinema-red animate-pulse" />,
-    <Clapperboard key="clap" className="h-10 w-10 text-cinema-red animate-clap-open" />,
-    <Camera key="camera" className="h-10 w-10 text-cinema-red animate-pulse" />,
-    <Video key="video" className="h-10 w-10 text-cinema-red animate-pulse" />
-  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,20 +46,18 @@ const Maintenance = () => {
   return (
     <div className="fixed inset-0 min-h-screen flex flex-col bg-cinema-black z-50">
       <main className="flex-grow flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-cinema-darkgray p-8 rounded-lg border border-cinema-red/20 shadow-lg animate-fade-in">
+        <div className="max-w-md w-full bg-cinema-darkgray p-8 rounded-lg border border-cinema-red/20 shadow-lg">
           <div className="flex justify-center mb-6">
             <div className="p-3 bg-cinema-red/10 rounded-full">
-              {icons[iconIndex]}
+              <Film className="h-10 w-10 text-cinema-red" />
             </div>
           </div>
           
-          <h1 className="text-3xl font-bold text-white text-center mb-2 animate-slide-up">Site en Maintenance</h1>
-          <div className="h-24 flex items-center justify-center mb-6">
-            <p className="text-gray-300 text-center animate-fade-in">
-              {currentQuote}<br />
-              <span className="text-sm italic text-cinema-red/80">- Notre site fait sa propre mise en scène, revenez bientôt!</span>
-            </p>
-          </div>
+          <h1 className="text-3xl font-bold text-white text-center mb-2">Site en Maintenance</h1>
+          <p className="text-gray-300 text-center mb-8">
+            "Le cinéma, c'est l'écriture moderne dont l'encre est la lumière."<br />
+            <span className="text-sm italic">- Notre site fait sa propre mise en scène, revenez bientôt!</span>
+          </p>
           
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
@@ -104,13 +66,13 @@ const Maintenance = () => {
                 placeholder="Entrez le mot de passe"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-cinema-black border-cinema-red/20 focus:border-cinema-red transition-all duration-300 hover:border-cinema-red/50"
+                className="bg-cinema-black border-cinema-red/20 focus:border-cinema-red"
               />
             </div>
             
             <Button 
               type="submit" 
-              className="w-full bg-cinema-red hover:bg-cinema-red/90 text-white font-bold transition-all duration-300 hover:shadow-md hover:shadow-cinema-red/20" 
+              className="w-full bg-cinema-red hover:bg-cinema-red/90 text-white font-bold" 
               disabled={isLoading}
             >
               {isLoading ? "Vérification..." : "Accéder au site"}
