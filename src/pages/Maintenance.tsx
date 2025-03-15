@@ -109,14 +109,15 @@ const Maintenance = () => {
 
   return (
     <div className="fixed inset-0 min-h-screen flex flex-col bg-cinema-black z-50 overflow-hidden">
-      {/* Clap qui suit la souris */}
+      {/* Clap qui colle à la souris */}
       <div 
         ref={clapRef}
-        className="fixed pointer-events-none z-50 transition-transform duration-100"
+        className="fixed pointer-events-none z-50"
         style={{ 
-          left: `${mousePosition.x - 25}px`, 
-          top: `${mousePosition.y - 25}px`,
-          transform: `translate(-50%, -50%) ${isClapping ? 'rotate(-20deg)' : 'rotate(0deg)'}`
+          left: `${mousePosition.x}px`, 
+          top: `${mousePosition.y}px`,
+          transform: `${isClapping ? 'rotate(-20deg)' : 'rotate(0deg)'}`,
+          transition: "transform 200ms ease"
         }}
       >
         <Clapperboard 
