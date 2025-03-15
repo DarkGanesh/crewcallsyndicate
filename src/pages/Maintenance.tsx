@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,12 @@ const Maintenance = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
+  // Mouse follower state
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const clapRef = useRef<HTMLDivElement>(null);
+  const [isClapping, setIsClapping] = useState(false);
+  
+  // Cinema quotes
   const cinemaQuotes = [
     "\"Le cinéma, c'est l'écriture moderne dont l'encre est la lumière.\" — Jean Cocteau",
     "\"Le cinéma, c'est un œil ouvert sur le monde.\" — Joseph Bédier",
@@ -21,6 +27,19 @@ const Maintenance = () => {
   ];
   
   const [currentQuote, setCurrentQuote] = useState(cinemaQuotes[0]);
+  
+  // Track mouse movement
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
   
   // Animation pour changer la citation toutes les 10 secondes
   useEffect(() => {
@@ -39,6 +58,16 @@ const Maintenance = () => {
     }, 3000);
     
     return () => clearInterval(iconInterval);
+  }, []);
+  
+  // Clap animation effect
+  useEffect(() => {
+    const clapInterval = setInterval(() => {
+      setIsClapping(true);
+      setTimeout(() => setIsClapping(false), 500);
+    }, 5000);
+    
+    return () => clearInterval(clapInterval);
   }, []);
   
   const icons = [
@@ -79,7 +108,22 @@ const Maintenance = () => {
   };
 
   return (
-    <div className="fixed inset-0 min-h-screen flex flex-col bg-cinema-black z-50">
+    <div className="fixed inset-0 min-h-screen flex flex-col bg-cinema-black z-50 overflow-hidden">
+      {/* Clap qui suit la souris */}
+      <div 
+        ref={clapRef}
+        className="fixed pointer-events-none z-50 transition-transform duration-100"
+        style={{ 
+          left: `${mousePosition.x - 25}px`, 
+          top: `${mousePosition.y - 25}px`,
+          transform: `translate(-50%, -50%) ${isClapping ? 'rotate(-20deg)' : 'rotate(0deg)'}`
+        }}
+      >
+        <Clapperboard 
+          className={`w-12 h-12 text-cinema-red ${isClapping ? 'opacity-100' : 'opacity-70'}`} 
+        />
+      </div>
+      
       <main className="flex-grow flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-cinema-darkgray p-8 rounded-lg border border-cinema-red/20 shadow-lg transition-all duration-300 hover:shadow-cinema-red/20">
           <div className="flex justify-center mb-6">
