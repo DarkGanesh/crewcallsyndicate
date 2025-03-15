@@ -14,10 +14,10 @@ const Maintenance = () => {
   const { toast } = useToast();
   
   const cinemaQuotes = [
-    ""Le cinéma, c'est l'écriture moderne dont l'encre est la lumière." — Jean Cocteau",
-    ""Le cinéma, c'est un œil ouvert sur le monde." — Joseph Bédier",
-    ""Un film est une réalité qui défile à vingt-quatre images par seconde." — Jean-Luc Godard",
-    ""Le cinéma, c'est l'art de montrer." — Alfred Hitchcock"
+    "\"Le cinéma, c'est l'écriture moderne dont l'encre est la lumière.\" — Jean Cocteau",
+    "\"Le cinéma, c'est un œil ouvert sur le monde.\" — Joseph Bédier",
+    "\"Un film est une réalité qui défile à vingt-quatre images par seconde.\" — Jean-Luc Godard",
+    "\"Le cinéma, c'est l'art de montrer.\" — Alfred Hitchcock"
   ];
   
   const [currentQuote, setCurrentQuote] = useState(cinemaQuotes[0]);
