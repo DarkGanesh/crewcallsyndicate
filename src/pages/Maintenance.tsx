@@ -65,7 +65,7 @@ const Maintenance = () => {
         localStorage.setItem("maintenance_access", "granted");
         
         // Redirection vers la page d'accueil
-        navigate("/");
+        navigate("/accueil");
       } else {
         // Mot de passe incorrect
         toast({
