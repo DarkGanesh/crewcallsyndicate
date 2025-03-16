@@ -10,6 +10,7 @@ const Maintenance = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [iconIndex, setIconIndex] = useState(0);
+  const [logoVisible, setLogoVisible] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
   
@@ -39,6 +40,16 @@ const Maintenance = () => {
     }, 3000);
     
     return () => clearInterval(iconInterval);
+  }, []);
+  
+  // Animation for logo entrance
+  useEffect(() => {
+    // Small delay for the logo animation
+    const timer = setTimeout(() => {
+      setLogoVisible(true);
+    }, 300);
+    
+    return () => clearTimeout(timer);
   }, []);
   
   const icons = [
@@ -82,12 +93,14 @@ const Maintenance = () => {
     <div className="fixed inset-0 min-h-screen flex flex-col bg-cinema-black z-50">
       <main className="flex-grow flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-cinema-darkgray p-8 rounded-lg border border-cinema-red/20 shadow-lg transition-all duration-300 hover:shadow-cinema-red/20">
-          <div className="flex justify-center mb-6">
-            <img 
-              src="/lovable-uploads/55946b8c-3247-4126-8773-bd0d13e7aa19.png" 
-              alt="CrewCall Syndicate Logo" 
-              className="h-28 w-auto" 
-            />
+          <div className="flex justify-center mb-6 overflow-hidden">
+            <div className={`transition-all duration-1000 transform ${logoVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+              <img 
+                src="/lovable-uploads/55946b8c-3247-4126-8773-bd0d13e7aa19.png" 
+                alt="CrewCall Syndicate Logo" 
+                className="h-32 w-auto animate-pulse" 
+              />
+            </div>
           </div>
           
           <h1 className="text-3xl font-bold text-white text-center mb-2 transition-all">Site en Maintenance</h1>

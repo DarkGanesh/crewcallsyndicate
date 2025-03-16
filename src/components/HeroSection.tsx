@@ -34,7 +34,7 @@ const HeroSection = () => {
           <img 
             src="/lovable-uploads/55946b8c-3247-4126-8773-bd0d13e7aa19.png" 
             alt="CrewCall Syndicate Logo" 
-            className="h-28 w-auto mx-auto" 
+            className="h-32 w-auto mx-auto" 
           />
         </div>
         
