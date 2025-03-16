@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Film, ShoppingCart, Menu, X } from 'lucide-react';
+import { ShoppingCart, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,14 +15,17 @@ const Navbar = () => {
       <div className="cinema-container py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <Film className="h-8 w-8 text-cinema-red" />
-            <span className="text-xl font-bold text-white">Crew<span className="text-cinema-red">Call</span>Syndicate</span>
+          <Link to="/accueil" className="flex items-center">
+            <img 
+              src="/lovable-uploads/55946b8c-3247-4126-8773-bd0d13e7aa19.png" 
+              alt="CrewCall Syndicate Logo" 
+              className="h-12 w-auto" 
+            />
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-white hover:text-cinema-red transition-colors">
+            <Link to="/accueil" className="text-white hover:text-cinema-red transition-colors">
               Accueil
             </Link>
             <Link to="/personnalisation" className="text-white hover:text-cinema-red transition-colors">
@@ -66,7 +69,7 @@ const Navbar = () => {
         {isMenuOpen && (
           <nav className="mt-4 pb-4 md:hidden flex flex-col space-y-4">
             <Link 
-              to="/" 
+              to="/accueil" 
               className="text-white hover:text-cinema-red transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >

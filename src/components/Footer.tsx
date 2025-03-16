@@ -1,5 +1,6 @@
+
 import { Link } from 'react-router-dom';
-import { Mail, Phone, Film, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Mail, Phone, Instagram, Facebook, Twitter } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -8,9 +9,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Logo and Company Info */}
           <div className="flex flex-col space-y-4">
-            <Link to="/" className="flex items-center space-x-2">
-              <Film className="h-8 w-8 text-cinema-red" />
-              <span className="text-xl font-bold text-white">Crew<span className="text-cinema-red">Call</span>Syndicate</span>
+            <Link to="/accueil" className="flex items-center">
+              <img 
+                src="/lovable-uploads/55946b8c-3247-4126-8773-bd0d13e7aa19.png" 
+                alt="CrewCall Syndicate Logo" 
+                className="h-14 w-auto" 
+              />
             </Link>
             <p className="text-gray-400 text-sm">
               Votre partenaire pour des goodies professionnels et personnalisés dédiés aux métiers du cinéma.
@@ -32,7 +36,7 @@ const Footer = () => {
           <div className="flex flex-col space-y-4">
             <h3 className="text-white text-lg font-bold">Liens Rapides</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <Link to="/" className="text-gray-400 hover:text-cinema-red transition-colors">Accueil</Link>
+              <Link to="/accueil" className="text-gray-400 hover:text-cinema-red transition-colors">Accueil</Link>
               <Link to="/personnalisation" className="text-gray-400 hover:text-cinema-red transition-colors">Personnalisation</Link>
               <Link to="/collections" className="text-gray-400 hover:text-cinema-red transition-colors">Collections Métiers</Link>
               <Link to="/a-propos" className="text-gray-400 hover:text-cinema-red transition-colors">À Propos</Link>

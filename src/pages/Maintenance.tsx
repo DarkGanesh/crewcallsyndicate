@@ -83,9 +83,11 @@ const Maintenance = () => {
       <main className="flex-grow flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-cinema-darkgray p-8 rounded-lg border border-cinema-red/20 shadow-lg transition-all duration-300 hover:shadow-cinema-red/20">
           <div className="flex justify-center mb-6">
-            <div className="p-3 bg-cinema-red/10 rounded-full">
-              {icons[iconIndex]}
-            </div>
+            <img 
+              src="/lovable-uploads/55946b8c-3247-4126-8773-bd0d13e7aa19.png" 
+              alt="CrewCall Syndicate Logo" 
+              className="h-28 w-auto" 
+            />
           </div>
           
           <h1 className="text-3xl font-bold text-white text-center mb-2 transition-all">Site en Maintenance</h1>
