@@ -29,15 +29,13 @@ const HeroSection = () => {
       </div>
 
       <div className="relative h-full cinema-container flex flex-col items-center justify-center text-center">
-        {/* Cinema clap animation */}
-        <div className={`mb-4 transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <div className="relative w-24 h-20 mx-auto mb-8">
-            <div className="absolute inset-0 bg-cinema-black border-2 border-cinema-red rounded-sm"></div>
-            <div className={`absolute inset-0 bg-cinema-black border-2 border-cinema-red rounded-sm origin-top transform ${isVisible ? 'animate-clap-open' : ''}`}></div>
-            <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 text-sm text-cinema-red font-mono">
-              TAKE 1
-            </div>
-          </div>
+        {/* Logo animation replacing cinema clap */}
+        <div className={`mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+          <img 
+            src="/lovable-uploads/55946b8c-3247-4126-8773-bd0d13e7aa19.png" 
+            alt="CrewCall Syndicate Logo" 
+            className="h-28 w-auto mx-auto" 
+          />
         </div>
         
         {/* Main headline */}
