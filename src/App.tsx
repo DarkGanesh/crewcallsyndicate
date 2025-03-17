@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Index from './pages/Index';
@@ -8,7 +9,7 @@ import Personnalisation from './pages/Personnalisation';
 import NotFound from './pages/NotFound';
 import Cart from './pages/Cart';
 import Contact from './pages/Contact';
-import { Toaster } from "@/components/ui/use-toast"
+import { Toaster } from "@/components/ui/toaster"
 import MarquageTextile from './pages/MarquageTextile';
 
 function App() {
