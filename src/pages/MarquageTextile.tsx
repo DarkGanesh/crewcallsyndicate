@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -144,7 +143,6 @@ const MarquageTextile = () => {
                 
                 <div className="w-full max-w-md bg-cinema-black/50 rounded-md p-4 text-center">
                   <h3 className="text-white font-bold text-lg">{selectedTextile.label}</h3>
-                  <p className="text-gray-400 text-sm mb-2">Prix estimé: {selectedTextile.price}</p>
                   <p className="text-cinema-red text-xs">*Le prix final sera établi sur devis</p>
                 </div>
               </div>
