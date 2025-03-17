@@ -7,22 +7,10 @@ const FeaturedProducts = () => {
 
   const products = [
     {
-      id: "tshirt-01",
-      name: "Tee-Shirt avec Logo",
-      description: "Tee-shirt de qualité supérieure avec votre logo à l'arrière et sur le cœur. Livraison incluse.",
-      imageUrl: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      priceOptions: [
-        { quantity: 25, price: 274 },
-        { quantity: 50, price: 500 },
-        { quantity: 100, price: 958 }
-      ],
-      customizable: true
-    },
-    {
       id: "notepad-01",
       name: "Bloc-Note Logo Avant",
       description: "Bloc-note professionnel avec votre logo imprimé en première page. Idéal pour les prises de notes sur le plateau.",
-      imageUrl: "https://images.unsplash.com/photo-1517842645767-c639042777db?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      imageUrl: "/lovable-uploads/9c91e62a-099a-4707-9a88-1b547833aefb.png",
       priceOptions: [
         { quantity: 25, price: 160 },
         { quantity: 50, price: 226 },
@@ -31,26 +19,38 @@ const FeaturedProducts = () => {
       customizable: true
     },
     {
-      id: "bottle-01",
-      name: "Gourde Logo Bas",
-      description: "Gourde écologique et durable avec votre logo imprimé en bas de la gourde. Maintient vos boissons fraîches ou chaudes.",
-      imageUrl: "https://images.unsplash.com/photo-1616118132534-381148898bb4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      id: "tshirt-01",
+      name: "Tee-Shirt avec Logo",
+      description: "Tee-shirt de qualité supérieure avec votre logo à l'arrière et sur le cœur. Livraison incluse.",
+      imageUrl: "/lovable-uploads/42a5b439-a8b0-4979-ab59-5cff1585cfae.png",
       priceOptions: [
-        { quantity: 25, price: 451 },
-        { quantity: 50, price: 840 },
-        { quantity: 100, price: 1645 }
+        { quantity: 25, price: 274 },
+        { quantity: 50, price: 500 },
+        { quantity: 100, price: 958 }
       ],
       customizable: true
     },
     {
-      id: "vest-01",
-      name: "Gilet Jaune Avec Logo",
-      description: "Gilet haute visibilité avec votre logo imprimé au cœur et à l'arrière. Idéal pour les équipes techniques et les tournages en extérieur.",
-      imageUrl: "https://images.unsplash.com/photo-1590439471364-192aa70c0b53?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      id: "stickers-01",
+      name: "Stickers Logo",
+      description: "Stickers personnalisés avec votre logo, idéaux pour marquer votre matériel ou créer des produits dérivés.",
+      imageUrl: "/lovable-uploads/ed280022-59c7-4fdf-976d-e24a80fae5c1.png",
       priceOptions: [
-        { quantity: 25, price: 290 },
-        { quantity: 50, price: 550 },
-        { quantity: 100, price: 810 }
+        { quantity: 25, price: 230 },
+        { quantity: 50, price: 290 },
+        { quantity: 100, price: 410 }
+      ],
+      customizable: true
+    },
+    {
+      id: "bottle-01",
+      name: "Gourde Logo Bas",
+      description: "Gourde écologique et durable avec votre logo imprimé en bas de la gourde. Maintient vos boissons fraîches ou chaudes.",
+      imageUrl: "/lovable-uploads/23596798-b387-4233-b44e-28ef22dfcb91.png",
+      priceOptions: [
+        { quantity: 25, price: 451 },
+        { quantity: 50, price: 840 },
+        { quantity: 100, price: 1645 }
       ],
       customizable: true
     }
