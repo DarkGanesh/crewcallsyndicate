@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom';
 import { Mail, Phone, Instagram, Facebook, Twitter } from 'lucide-react';
 
@@ -8,9 +9,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Logo and Company Info */}
           <div className="flex flex-col space-y-4">
-            <Link to="/accueil" className="flex items-center">
+            <Link to="/" className="flex items-center">
               <img 
-                src="/lovable-uploads/55946b8c-3247-4126-8773-bd0d13e7aa19.png" 
+                src="/lovable-uploads/5a60f4de-630f-4907-bbd7-254ac3ef55af.png" 
                 alt="CrewCall Syndicate Logo" 
                 className="h-14 w-auto" 
               />
@@ -35,10 +36,10 @@ const Footer = () => {
           <div className="flex flex-col space-y-4">
             <h3 className="text-white text-lg font-bold">Liens Rapides</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <Link to="/accueil" className="text-gray-400 hover:text-cinema-red transition-colors">Accueil</Link>
+              <Link to="/" className="text-gray-400 hover:text-cinema-red transition-colors">Accueil</Link>
               <Link to="/personnalisation" className="text-gray-400 hover:text-cinema-red transition-colors">Personnalisation</Link>
               <Link to="/collections" className="text-gray-400 hover:text-cinema-red transition-colors">Collections Métiers</Link>
-              <Link to="/a-propos" className="text-gray-400 hover:text-cinema-red transition-colors">À Propos</Link>
+              <Link to="/about" className="text-gray-400 hover:text-cinema-red transition-colors">À Propos</Link>
               <Link to="/contact" className="text-gray-400 hover:text-cinema-red transition-colors">Contact</Link>
               <Link to="/mentions-legales" className="text-gray-400 hover:text-cinema-red transition-colors">Mentions Légales</Link>
             </div>
