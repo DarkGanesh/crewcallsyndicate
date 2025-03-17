@@ -1,5 +1,4 @@
 
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { 
   ShoppingCart, 
@@ -13,63 +12,20 @@ import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-
-// Mock cart data - in a real app, this would come from context or state management
-interface CartItem {
-  id: string;
-  name: string;
-  imageUrl: string;
-  price: number;
-  quantity: number;
-  customizable: boolean;
-  selectedQuantity: number;
-}
+import { useCart } from "@/context/CartContext";
 
 const Cart = () => {
   const { toast } = useToast();
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: "tshirt-01",
-      name: "Tee-Shirt avec Logo",
-      imageUrl: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      price: 10.96,
-      quantity: 2,
-      customizable: true,
-      selectedQuantity: 25
-    },
-    {
-      id: "notepad-01",
-      name: "Bloc-Note Logo Avant",
-      imageUrl: "https://images.unsplash.com/photo-1517842645767-c639042777db?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      price: 6.40,
-      quantity: 1,
-      customizable: true,
-      selectedQuantity: 25
-    }
-  ]);
+  const { items, updateQuantity, removeFromCart, getTotalPrice } = useCart();
 
-  const updateQuantity = (id: string, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    
-    setCartItems(prev => 
-      prev.map(item => 
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const removeItem = (id: string) => {
-    setCartItems(prev => prev.filter(item => item.id !== id));
+  const handleRemoveItem = (id: string) => {
+    removeFromCart(id);
     
     toast({
       title: "Article supprimé",
       description: "L'article a été retiré de votre panier",
       variant: "destructive",
     });
-  };
-
-  const getTotalPrice = () => {
-    return cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   };
 
   const handleCheckout = () => {
@@ -96,7 +52,7 @@ const Cart = () => {
             </Link>
           </div>
 
-          {cartItems.length === 0 ? (
+          {items.length === 0 ? (
             <div className="bg-cinema-darkgray rounded-lg p-12 text-center">
               <div className="inline-block p-6 mb-6 rounded-full bg-cinema-black/50">
                 <ShoppingCart className="h-16 w-16 text-cinema-red" />
@@ -111,7 +67,7 @@ const Cart = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Cart Items - 2 columns on larger screens */}
               <div className="lg:col-span-2 space-y-4">
-                {cartItems.map((item) => (
+                {items.map((item) => (
                   <div key={item.id} className="bg-cinema-darkgray rounded-lg p-4 flex flex-col sm:flex-row">
                     {/* Product Image */}
                     <div className="w-full sm:w-32 h-32 flex-shrink-0 mb-4 sm:mb-0">
@@ -128,7 +84,7 @@ const Cart = () => {
                         <div className="flex justify-between items-start">
                           <h3 className="text-white font-bold">{item.name}</h3>
                           <button 
-                            onClick={() => removeItem(item.id)}
+                            onClick={() => handleRemoveItem(item.id)}
                             className="text-gray-400 hover:text-cinema-red transition-colors"
                           >
                             <Trash2 className="h-4 w-4" />

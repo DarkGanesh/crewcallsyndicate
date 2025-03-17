@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronUp, ShoppingCart, Pencil } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useCart } from '@/context/CartContext';
 
 interface PriceOption {
   quantity: number;
@@ -27,6 +28,7 @@ const ProductCard = ({
   customizable
 }: ProductCardProps) => {
   const { toast } = useToast();
+  const { addToCart } = useCart();
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedQuantity, setSelectedQuantity] = useState<number | null>(null);
 
@@ -47,7 +49,19 @@ const ProductCard = ({
   const handleAddToCart = () => {
     if (!selectedQuantity) return;
     
-    // In a real app, this would dispatch to a cart context or state manager
+    const selectedPrice = getSelectedPrice();
+    if (selectedPrice === null) return;
+    
+    addToCart({
+      id,
+      name,
+      imageUrl,
+      price: selectedPrice,
+      quantity: 1,
+      customizable,
+      selectedQuantity
+    });
+    
     toast({
       title: "Ajouté au panier",
       description: `${name} (${selectedQuantity} unités) a été ajouté à votre panier`,
