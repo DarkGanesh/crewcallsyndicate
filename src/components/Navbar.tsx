@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { ShoppingCart, Menu, X } from "lucide-react";
@@ -13,14 +14,9 @@ const Navbar = () => {
 
   return (
     <header className="bg-cinema-black text-white">
-      <div className="clap-bar text-xs">
-        LIVRAISON OFFERTE DÈS 50€ D’ACHAT
-      </div>
-      
       <div className="cinema-container py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <img src="/logo.svg" alt="Logo CrewCallSyndicate" className="h-8 mr-2" />
-          <span className="font-bold">CrewCallSyndicate</span>
+          <img src="/lovable-uploads/46ba39bc-9829-4fa5-b3e3-478490a784a8.png" alt="Logo CrewCallSyndicate" className="h-14 mr-2" />
         </Link>
         
         <button onClick={toggleMenu} className="lg:hidden">
