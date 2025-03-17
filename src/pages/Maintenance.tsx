@@ -96,7 +96,7 @@ const Maintenance = () => {
           <div className="flex justify-center mb-6 overflow-hidden">
             <div className={`transition-all duration-1000 transform ${logoVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
               <img 
-                src="/lovable-uploads/55946b8c-3247-4126-8773-bd0d13e7aa19.png" 
+                src="/lovable-uploads/86bc3798-6af1-484c-b5ee-b77101e1e469.png" 
                 alt="CrewCall Syndicate Logo" 
                 className="h-32 w-auto animate-pulse" 
               />

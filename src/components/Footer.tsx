@@ -11,7 +11,7 @@ const Footer = () => {
           <div className="flex flex-col space-y-4">
             <Link to="/" className="flex items-center">
               <img 
-                src="/lovable-uploads/5a60f4de-630f-4907-bbd7-254ac3ef55af.png" 
+                src="/lovable-uploads/86bc3798-6af1-484c-b5ee-b77101e1e469.png" 
                 alt="CrewCall Syndicate Logo" 
                 className="h-14 w-auto" 
               />

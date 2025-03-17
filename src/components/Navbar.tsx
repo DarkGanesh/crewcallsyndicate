@@ -16,7 +16,7 @@ const Navbar = () => {
     <header className="bg-cinema-black text-white">
       <div className="cinema-container py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <img src="/lovable-uploads/5a60f4de-630f-4907-bbd7-254ac3ef55af.png" alt="Logo CrewCallSyndicate" className="h-14 mr-2" />
+          <img src="/lovable-uploads/86bc3798-6af1-484c-b5ee-b77101e1e469.png" alt="Logo CrewCallSyndicate" className="h-14 mr-2" />
         </Link>
         
         <button onClick={toggleMenu} className="lg:hidden">

@@ -32,7 +32,7 @@ const HeroSection = () => {
         {/* Logo animation replacing cinema clap */}
         <div className={`mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
           <img 
-            src="/lovable-uploads/5a60f4de-630f-4907-bbd7-254ac3ef55af.png" 
+            src="/lovable-uploads/86bc3798-6af1-484c-b5ee-b77101e1e469.png" 
             alt="CrewCall Syndicate Logo" 
             className="h-32 w-auto mx-auto" 
           />
