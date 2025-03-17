@@ -12,6 +12,8 @@ import Contact from './pages/Contact';
 import { Toaster } from "@/components/ui/toaster"
 import MarquageTextile from './pages/MarquageTextile';
 import { CartProvider } from '@/context/CartContext';
+import Maintenance from './pages/Maintenance';
+import MaintenanceGuard from './components/MaintenanceGuard';
 
 function App() {
   return (
@@ -21,44 +23,52 @@ function App() {
           createBrowserRouter([
             {
               path: "/",
-              element: <Index />,
+              element: <MaintenanceGuard><Index /></MaintenanceGuard>,
               errorElement: <NotFound />
             },
             {
+              path: "/accueil",
+              element: <MaintenanceGuard><Index /></MaintenanceGuard>
+            },
+            {
               path: "/about",
-              element: <APropos />
+              element: <MaintenanceGuard><APropos /></MaintenanceGuard>
             },
             {
               path: "/collections",
-              element: <Collections />
+              element: <MaintenanceGuard><Collections /></MaintenanceGuard>
             },
             {
               path: "/mentions-legales",
-              element: <MentionsLegales />
+              element: <MaintenanceGuard><MentionsLegales /></MaintenanceGuard>
             },
             {
               path: "/personnalisation",
-              element: <Personnalisation />
+              element: <MaintenanceGuard><Personnalisation /></MaintenanceGuard>
             },
             {
               path: "/404",
-              element: <NotFound />
+              element: <MaintenanceGuard><NotFound /></MaintenanceGuard>
             },
             {
               path: "/cart",
-              element: <Cart />
+              element: <MaintenanceGuard><Cart /></MaintenanceGuard>
             },
             {
               path: "/contact",
-              element: <Contact />
+              element: <MaintenanceGuard><Contact /></MaintenanceGuard>
             },
             {
               path: "/marquage-textile",
-              element: <MarquageTextile />
+              element: <MaintenanceGuard><MarquageTextile /></MaintenanceGuard>
+            },
+            {
+              path: "/maintenance",
+              element: <Maintenance />
             },
             {
               path: "*",
-              element: <NotFound />
+              element: <MaintenanceGuard><NotFound /></MaintenanceGuard>
             }
           ])
         }
