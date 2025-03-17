@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Mail, Phone, Instagram, Facebook, Twitter } from 'lucide-react';
 
@@ -65,12 +64,12 @@ const Footer = () => {
         <div className="mt-12 pt-6 border-t border-gray-800 flex flex-col items-center">
           <div className="flex flex-wrap justify-center gap-8 mb-6">
             <img 
-              src="/lovable-uploads/a0a7be0e-e6aa-4dba-b091-e87ab0f33691.png" 
+              src="/lovable-uploads/872ddca7-d313-475a-b514-d190abaf5d95.png" 
               alt="Green R Logo" 
               className="h-10 w-auto" 
             />
             <img 
-              src="/lovable-uploads/6cb683fb-7d7c-404e-9e49-8f69bb3bf5ee.png" 
+              src="/lovable-uploads/46ba39bc-9829-4fa5-b3e3-478490a784a8.png" 
               alt="Imprim'Vert Logo" 
               className="h-10 w-auto" 
             />
