@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,14 +39,14 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const textileOptions = [
-  { value: "tshirt", label: "Tee-shirt", image: "/lovable-uploads/9c91e62a-099a-4707-9a88-1b547833aefb.png", price: "À partir de 8€" },
-  { value: "polo", label: "Polo", image: "/lovable-uploads/6cb683fb-7d7c-404e-9e49-8f69bb3bf5ee.png", price: "À partir de 12€" },
-  { value: "sweatshirt", label: "Sweatshirt", image: "/lovable-uploads/ea809243-e030-4294-9a03-2812d1f6a97b.png", price: "À partir de 18€" },
-  { value: "jacket", label: "Veste", image: "/lovable-uploads/a0a7be0e-e6aa-4dba-b091-e87ab0f33691.png", price: "À partir de 25€" },
-  { value: "apron", label: "Tablier", image: "/lovable-uploads/46ba39bc-9829-4fa5-b3e3-478490a784a8.png", price: "À partir de 15€" },
-  { value: "safetyVest", label: "Gilet de sécurité", image: "/lovable-uploads/31ccc696-4832-4f37-8328-6b715e55b3aa.png", price: "À partir de 10€" },
-  { value: "cap", label: "Casquette", image: "/lovable-uploads/55946b8c-3247-4126-8773-bd0d13e7aa19.png", price: "À partir de 7€" },
-  { value: "totebag", label: "Totebag", image: "/lovable-uploads/ed280022-59c7-4fdf-976d-e24a80fae5c1.png", price: "À partir de 6€" },
+  { value: "tshirt", label: "Tee-shirt", image: "/lovable-uploads/5168c031-adeb-43d6-8bc5-fd1e69743a32.png", price: "À partir de 8€" },
+  { value: "polo", label: "Polo", image: "/lovable-uploads/8b927d21-4f1d-46a8-942c-485f8ef9a461.png", price: "À partir de 12€" },
+  { value: "sweatshirt", label: "Sweatshirt", image: "/lovable-uploads/15991b1f-26d2-42d6-aa1b-898d276059c1.png", price: "À partir de 18€" },
+  { value: "jacket", label: "Veste", image: "/lovable-uploads/6606ff3f-df06-45cf-946e-7cae33971c53.png", price: "À partir de 25€" },
+  { value: "apron", label: "Tablier", image: "/lovable-uploads/b2c63210-d2c6-474f-9a04-c885b6a50269.png", price: "À partir de 15€" },
+  { value: "safetyVest", label: "Gilet de sécurité", image: "/lovable-uploads/0b6b2e29-aa96-4592-b08f-eabace70131c.png", price: "À partir de 10€" },
+  { value: "cap", label: "Casquette", image: "/lovable-uploads/a9b41b22-bdd7-4cf9-b8a4-4cba9d19f24c.png", price: "À partir de 7€" },
+  { value: "totebag", label: "Totebag", image: "/lovable-uploads/96aba087-d6da-412e-831d-7b43b5984e9d.png", price: "À partir de 6€" },
 ];
 
 const MarquageTextile = () => {
@@ -85,8 +85,20 @@ const MarquageTextile = () => {
         selectedQuantity: data.quantity
       });
       
-      // Send email notification (this would be handled by a backend service in a real app)
-      // For demo purposes, we'll just show a toast
+      // For demo purposes, simulate sending an email
+      console.log("Envoi d'un e-mail à contact@crewcallsyndicate.com avec les détails suivants:");
+      console.log({
+        textile: textile.label,
+        quantity: data.quantity,
+        placement: data.placement,
+        hasLogo: data.hasLogo,
+        contactName: data.name,
+        contactEmail: data.email,
+        contactPhone: data.phone,
+        company: data.company,
+        message: data.message
+      });
+      
       toast({
         title: "Demande de devis envoyée",
         description: "Nous vous contacterons rapidement pour établir un devis personnalisé.",
@@ -100,12 +112,12 @@ const MarquageTextile = () => {
   const watchTextileType = form.watch("textileType");
   
   // Update selected textile when form value changes
-  useState(() => {
+  useEffect(() => {
     const textile = textileOptions.find(t => t.value === watchTextileType);
     if (textile) {
       setSelectedTextile(textile);
     }
-  });
+  }, [watchTextileType]);
   
   return (
     <div className="min-h-screen flex flex-col bg-cinema-black">
