@@ -1,112 +1,75 @@
-
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ShoppingCart, Menu, X } from 'lucide-react';
-import { useCart } from '@/context/CartContext';
+import { useState } from "react";
+import { NavLink, Link } from "react-router-dom";
+import { ShoppingCart, Menu, X } from "lucide-react";
+import { useCart } from "@/context/CartContext";
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const { getCartCount } = useCart();
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsOpen(!isOpen);
   };
 
   return (
-    <header className="bg-cinema-black border-b border-cinema-red/20">
-      <div className="cinema-container py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/accueil" className="flex items-center">
-            <img 
-              src="/lovable-uploads/55946b8c-3247-4126-8773-bd0d13e7aa19.png" 
-              alt="CrewCall Syndicate Logo" 
-              className="h-12 w-auto" 
-            />
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/accueil" className="text-white hover:text-cinema-red transition-colors">
-              Accueil
-            </Link>
-            <Link to="/personnalisation" className="text-white hover:text-cinema-red transition-colors">
-              Personnalisation
-            </Link>
-            <Link to="/collections" className="text-white hover:text-cinema-red transition-colors">
-              Collections Métiers
-            </Link>
-            <Link to="/a-propos" className="text-white hover:text-cinema-red transition-colors">
-              À Propos
-            </Link>
-            <Link to="/contact" className="text-white hover:text-cinema-red transition-colors">
-              Contact
-            </Link>
-          </nav>
-
-          {/* Shopping Cart */}
-          <div className="flex items-center space-x-4">
-            <Link to="/panier" className="relative p-2">
-              <ShoppingCart className="h-6 w-6 text-white hover:text-cinema-red transition-colors" />
-              <span className="absolute top-0 right-0 bg-cinema-red text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                {getCartCount()}
-              </span>
-            </Link>
-
-            {/* Mobile Menu Button */}
-            <button 
-              className="p-2 md:hidden text-white"
-              onClick={toggleMenu}
-            >
-              {isMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <nav className="mt-4 pb-4 md:hidden flex flex-col space-y-4">
-            <Link 
-              to="/accueil" 
-              className="text-white hover:text-cinema-red transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Accueil
-            </Link>
-            <Link 
-              to="/personnalisation" 
-              className="text-white hover:text-cinema-red transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Personnalisation
-            </Link>
-            <Link 
-              to="/collections" 
-              className="text-white hover:text-cinema-red transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Collections Métiers
-            </Link>
-            <Link 
-              to="/a-propos" 
-              className="text-white hover:text-cinema-red transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              À Propos
-            </Link>
-            <Link 
-              to="/contact" 
-              className="text-white hover:text-cinema-red transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact
-            </Link>
-          </nav>
-        )}
+    <header className="bg-cinema-black text-white">
+      <div className="clap-bar text-xs">
+        LIVRAISON OFFERTE DÈS 50€ D’ACHAT
+      </div>
+      
+      <div className="cinema-container py-4 flex items-center justify-between">
+        <Link to="/" className="flex items-center">
+          <img src="/logo.svg" alt="Logo CrewCallSyndicate" className="h-8 mr-2" />
+          <span className="font-bold">CrewCallSyndicate</span>
+        </Link>
+        
+        <button onClick={toggleMenu} className="lg:hidden">
+          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+        
+        <nav className={`${isOpen ? 'block' : 'hidden'} lg:flex lg:items-center lg:w-auto w-full`}>
+          <ul className="lg:flex lg:justify-between lg:items-center">
+            <li className="mt-3 lg:mt-0 lg:mr-8">
+              <NavLink to="/" className={({ isActive }) => isActive ? 'text-cinema-red' : 'hover:text-cinema-red transition-colors'}>
+                Accueil
+              </NavLink>
+            </li>
+            <li className="mt-3 lg:mt-0 lg:mr-8">
+              <NavLink to="/collections" className={({ isActive }) => isActive ? 'text-cinema-red' : 'hover:text-cinema-red transition-colors'}>
+                Collections
+              </NavLink>
+            </li>
+            <li className="mt-3 lg:mt-0 lg:mr-8">
+              <NavLink to="/personnalisation" className={({ isActive }) => isActive ? 'text-cinema-red' : 'hover:text-cinema-red transition-colors'}>
+                Personnalisation
+              </NavLink>
+            </li>
+            <li className="mt-3 lg:mt-0 lg:mr-8">
+              <NavLink to="/marquage-textile" className={({ isActive }) => isActive ? 'text-cinema-red' : 'hover:text-cinema-red transition-colors'}>
+                Marquage Textile
+              </NavLink>
+            </li>
+            <li className="mt-3 lg:mt-0 lg:mr-8">
+              <NavLink to="/about" className={({ isActive }) => isActive ? 'text-cinema-red' : 'hover:text-cinema-red transition-colors'}>
+                À Propos
+              </NavLink>
+            </li>
+            <li className="mt-3 lg:mt-0">
+              <NavLink to="/contact" className={({ isActive }) => isActive ? 'text-cinema-red' : 'hover:text-cinema-red transition-colors'}>
+                Contact
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+        
+        <Link to="/cart" className="relative">
+          <ShoppingCart className="h-6 w-6 hover:text-cinema-red transition-colors" />
+          {getCartCount() > 0 && (
+            <span className="absolute -top-2 -right-2 bg-cinema-red text-white text-xs rounded-full px-2">
+              {getCartCount()}
+            </span>
+          )}
+        </Link>
       </div>
     </header>
   );
