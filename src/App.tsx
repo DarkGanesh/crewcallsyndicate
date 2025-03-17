@@ -11,10 +11,11 @@ import Cart from './pages/Cart';
 import Contact from './pages/Contact';
 import { Toaster } from "@/components/ui/toaster"
 import MarquageTextile from './pages/MarquageTextile';
+import { CartProvider } from '@/context/CartContext';
 
 function App() {
   return (
-    <>
+    <CartProvider>
       <RouterProvider 
         router={
           createBrowserRouter([
@@ -63,7 +64,7 @@ function App() {
         }
       />
       <Toaster />
-    </>
+    </CartProvider>
   );
 }
 
