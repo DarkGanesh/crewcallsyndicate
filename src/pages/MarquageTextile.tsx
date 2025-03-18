@@ -149,10 +149,10 @@ const MarquageTextile = () => {
               <div className="mt-8">
                 <h3 className="text-white font-medium mb-3">Comment ça marche?</h3>
                 <ol className="text-gray-400 text-sm space-y-2 list-decimal pl-5">
-                  <li><span className="text-cinema-red font-medium">1️⃣ Configuration en ligne</span> - Sélectionnez le textile de votre choix et définissez les marquages souhaités directement sur notre plateforme.</li>
-                  <li><span className="text-cinema-red font-medium">2️⃣ Validation téléphonique</span> - Un conseiller vous contactera après votre commande pour valider les aspects techniques et s'assurer de la faisabilité de votre projet.</li>
+                  <li><span className="text-cinema-red font-medium">Configuration en ligne</span> - Sélectionnez le textile de votre choix et définissez les marquages souhaités directement sur notre plateforme.</li>
+                  <li><span className="text-cinema-red font-medium">Validation téléphonique</span> - Un conseiller vous contactera après votre commande pour valider les aspects techniques et s'assurer de la faisabilité de votre projet.</li>
                   <li><span className="text-cinema-red font-medium">Envoi de vos textiles</span> - Expédiez vos textiles vierges à notre atelier de personnalisation, où nous réceptionnons votre marchandise avant de procéder au marquage demandé.</li>
-                  <li><span className="text-cinema-red font-medium">4️⃣ Impression & Livraison</span> - Une fois le marquage réalisé, nous expédions vos textiles personnalisés, soit directement chez vous, soit à votre client en marque blanche.</li>
+                  <li><span className="text-cinema-red font-medium">Impression & Livraison</span> - Une fois le marquage réalisé, nous expédions vos textiles personnalisés, soit directement chez vous, soit à votre client en marque blanche.</li>
                 </ol>
               </div>
             </div>
