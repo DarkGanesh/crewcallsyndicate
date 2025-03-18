@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronUp, ShoppingCart, Pencil } from 'lucide-react';
@@ -122,7 +121,7 @@ const ProductCard = ({
         
         <div className="mt-4 flex space-x-2">
           <Link
-            to={`/produits/${id}`}
+            to={`/produit/${id}`}
             className="button-cinema-outline flex-1 text-center py-2"
           >
             Détails
