@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -45,7 +46,7 @@ const textileOptions = [
   { value: "apron", label: "Tablier", image: "/lovable-uploads/b2c63210-d2c6-474f-9a04-c885b6a50269.png", price: "À partir de 15€" },
   { value: "safetyVest", label: "Gilet de sécurité", image: "/lovable-uploads/0b6b2e29-aa96-4592-b08f-eabace70131c.png", price: "À partir de 10€" },
   { value: "cap", label: "Casquette", image: "/lovable-uploads/a9b41b22-bdd7-4cf9-b8a4-4cba9d19f24c.png", price: "À partir de 7€" },
-  { value: "totebag", label: "Totebag", image: "/lovable-uploads/96aba087-d6da-412e-831d-7b43b5984e9d.png", price: "À partir de 6€" },
+  // Removed the tote bag option from here
 ];
 
 const MarquageTextile = () => {
