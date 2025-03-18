@@ -14,7 +14,6 @@ import MarquageTextile from './pages/MarquageTextile';
 import { CartProvider } from '@/context/CartContext';
 import Maintenance from './pages/Maintenance';
 import MaintenanceGuard from './components/MaintenanceGuard';
-import NotebookDetail from './pages/NotebookDetail';
 
 function App() {
   return (
@@ -62,10 +61,6 @@ function App() {
             {
               path: "/marquage-textile",
               element: <MaintenanceGuard><MarquageTextile /></MaintenanceGuard>
-            },
-            {
-              path: "/bloc-notes",
-              element: <MaintenanceGuard><NotebookDetail /></MaintenanceGuard>
             },
             {
               path: "/maintenance",
