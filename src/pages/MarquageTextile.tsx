@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -151,7 +152,7 @@ const MarquageTextile = () => {
                 <ol className="text-gray-400 text-sm space-y-2 list-decimal pl-5">
                   <li><span className="text-cinema-red font-medium">1️⃣ Configuration en ligne</span> - Sélectionnez le textile de votre choix et définissez les marquages souhaités directement sur notre plateforme.</li>
                   <li><span className="text-cinema-red font-medium">2️⃣ Validation téléphonique</span> - Un conseiller vous contactera après votre commande pour valider les aspects techniques et s'assurer de la faisabilité de votre projet.</li>
-                  <li><span className="text-cinema-red font-medium">3️⃣ Envoi de vos textiles</span> - Expédiez vos textiles vierges à Realisaprint.com, où nous réceptionnons votre marchandise avant de procéder à la personnalisation demandée.</li>
+                  <li><span className="text-cinema-red font-medium">3️⃣ Envoi de vos textiles</span> - Expédiez vos textiles vierges à notre atelier de personnalisation, où nous réceptionnons votre marchandise avant de procéder au marquage demandé.</li>
                   <li><span className="text-cinema-red font-medium">4️⃣ Impression & Livraison</span> - Une fois le marquage réalisé, nous expédions vos textiles personnalisés, soit directement chez vous, soit à votre client en marque blanche.</li>
                 </ol>
               </div>
