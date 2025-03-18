@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -46,7 +45,6 @@ const textileOptions = [
   { value: "apron", label: "Tablier", image: "/lovable-uploads/b2c63210-d2c6-474f-9a04-c885b6a50269.png", price: "À partir de 15€" },
   { value: "safetyVest", label: "Gilet de sécurité", image: "/lovable-uploads/0b6b2e29-aa96-4592-b08f-eabace70131c.png", price: "À partir de 10€" },
   { value: "cap", label: "Casquette", image: "/lovable-uploads/a9b41b22-bdd7-4cf9-b8a4-4cba9d19f24c.png", price: "À partir de 7€" },
-  // Removed the tote bag option from here
 ];
 
 const MarquageTextile = () => {
@@ -151,11 +149,10 @@ const MarquageTextile = () => {
               <div className="mt-8">
                 <h3 className="text-white font-medium mb-3">Comment ça marche?</h3>
                 <ol className="text-gray-400 text-sm space-y-2 list-decimal pl-5">
-                  <li>Sélectionnez votre textile et personnalisez votre commande</li>
-                  <li>Soumettez votre demande de devis</li>
-                  <li>Notre équipe vous contactera rapidement pour finaliser les détails</li>
-                  <li>Après validation du devis, nous procédons à la production</li>
-                  <li>Recevez vos textiles personnalisés dans les délais convenus</li>
+                  <li><span className="text-cinema-red font-medium">1️⃣ Configuration en ligne</span> - Sélectionnez le textile de votre choix et définissez les marquages souhaités directement sur notre plateforme.</li>
+                  <li><span className="text-cinema-red font-medium">2️⃣ Validation téléphonique</span> - Un conseiller vous contactera après votre commande pour valider les aspects techniques et s'assurer de la faisabilité de votre projet.</li>
+                  <li><span className="text-cinema-red font-medium">3️⃣ Envoi de vos textiles</span> - Expédiez vos textiles vierges à Realisaprint.com, où nous réceptionnons votre marchandise avant de procéder à la personnalisation demandée.</li>
+                  <li><span className="text-cinema-red font-medium">4️⃣ Impression & Livraison</span> - Une fois le marquage réalisé, nous expédions vos textiles personnalisés, soit directement chez vous, soit à votre client en marque blanche.</li>
                 </ol>
               </div>
             </div>
