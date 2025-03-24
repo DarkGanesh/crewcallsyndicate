@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -13,7 +12,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // Schéma de validation pour le formulaire
 const formSchema = z.object({
   password: z.string().min(1, { message: "Le mot de passe est requis" }),
-  captcha: z.string().min(1, { message: "Veuillez résoudre le CAPTCHA" }).refine((val) => val === sessionStorage.getItem('captchaValue'), {
+  captcha: z.string().min(1, { message: "Veuillez résoudre le CAPTCHA" }).refine((val) => {
+    // Rendre la validation du CAPTCHA insensible à la casse
+    const storedCaptcha = sessionStorage.getItem('captchaValue') || '';
+    return val.toLowerCase() === storedCaptcha.toLowerCase();
+  }, {
     message: "CAPTCHA incorrect"
   })
 });
@@ -151,7 +154,8 @@ const Maintenance = () => {
 
     // Simulation d'un délai de vérification
     setTimeout(() => {
-      if (values.password === "julienleboss") {
+      // Rendre la validation du mot de passe insensible à la casse aussi
+      if (values.password.toLowerCase() === "julienleboss".toLowerCase()) {
         // Mot de passe correct
         toast({
           title: "Accès autorisé",
