@@ -27,12 +27,12 @@ function App() {
             createBrowserRouter([
               {
                 path: "/",
-                element: <Index />,
+                element: <MaintenanceGuard><Index /></MaintenanceGuard>,
                 errorElement: <NotFound />
               },
               {
                 path: "/accueil",
-                element: <Index />,
+                element: <MaintenanceGuard><Index /></MaintenanceGuard>,
               },
               {
                 path: "/about",
@@ -72,7 +72,7 @@ function App() {
               },
               {
                 path: "/clients",
-                element: <Clients />
+                element: <MaintenanceGuard><Clients /></MaintenanceGuard>
               },
               {
                 path: "/maintenance",
