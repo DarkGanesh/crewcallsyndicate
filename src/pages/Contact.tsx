@@ -1,16 +1,31 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { MapPin, Phone, Mail, Send } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
+import { useAuth } from "@/context/AuthContext";
 
 const Contact = () => {
+  const { currentClient, isAuthenticated, isGuest } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     company: "",
     message: ""
   });
+
+  // Auto-fill form with user data if logged in
+  useEffect(() => {
+    if (isAuthenticated && !isGuest && currentClient) {
+      setFormData(prev => ({
+        ...prev,
+        name: currentClient.name || "",
+        email: currentClient.email || "",
+        company: currentClient.company || ""
+      }));
+    }
+  }, [isAuthenticated, isGuest, currentClient]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -28,12 +43,10 @@ const Contact = () => {
     });
     
     // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      company: "",
+    setFormData(prev => ({
+      ...prev,
       message: ""
-    });
+    }));
   };
 
   return (

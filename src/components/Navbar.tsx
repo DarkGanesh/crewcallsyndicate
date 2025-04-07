@@ -1,15 +1,23 @@
 
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { ShoppingCart, Menu, X } from "lucide-react";
+import { ShoppingCart, Menu, X, User } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
+import LoginPopup from "@/components/LoginPopup";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const { getCartCount } = useCart();
+  const { isAuthenticated, currentClient, isGuest, logout } = useAuth();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleLogin = () => {
+    setIsLoginOpen(!isLoginOpen);
   };
 
   return (
@@ -58,15 +66,30 @@ const Navbar = () => {
           </ul>
         </nav>
         
-        <Link to="/cart" className="relative">
-          <ShoppingCart className="h-6 w-6 hover:text-cinema-red transition-colors" />
-          {getCartCount() > 0 && (
-            <span className="absolute -top-2 -right-2 bg-cinema-red text-white text-xs rounded-full px-2">
-              {getCartCount()}
-            </span>
-          )}
-        </Link>
+        <div className="flex items-center space-x-4">
+          <button 
+            className="relative text-white hover:text-cinema-red transition-colors"
+            onClick={toggleLogin}
+            aria-label={isAuthenticated ? "Profil" : "Connexion"}
+          >
+            <User className="h-6 w-6" />
+            {isAuthenticated && !isGuest && (
+              <span className="absolute -top-2 -right-2 bg-cinema-red text-white text-xs rounded-full w-3 h-3"></span>
+            )}
+          </button>
+          
+          <Link to="/cart" className="relative">
+            <ShoppingCart className="h-6 w-6 hover:text-cinema-red transition-colors" />
+            {getCartCount() > 0 && (
+              <span className="absolute -top-2 -right-2 bg-cinema-red text-white text-xs rounded-full px-2">
+                {getCartCount()}
+              </span>
+            )}
+          </Link>
+        </div>
       </div>
+      
+      <LoginPopup isOpen={isLoginOpen} onClose={toggleLogin} />
     </header>
   );
 };
