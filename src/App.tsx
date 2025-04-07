@@ -15,6 +15,7 @@ import { CartProvider } from '@/context/CartContext';
 import Maintenance from './pages/Maintenance';
 import MaintenanceGuard from './components/MaintenanceGuard';
 import NotebookDetail from './pages/NotebookDetail';
+import Clients from './pages/Clients';
 
 function App() {
   return (
@@ -66,6 +67,10 @@ function App() {
             {
               path: "/produit/:id",
               element: <MaintenanceGuard><NotebookDetail /></MaintenanceGuard>
+            },
+            {
+              path: "/clients",
+              element: <MaintenanceGuard><Clients /></MaintenanceGuard>
             },
             {
               path: "/maintenance",
