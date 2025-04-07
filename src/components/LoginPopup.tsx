@@ -31,6 +31,7 @@ const LoginPopup = ({ isOpen, onClose }: LoginPopupProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const { login, register, loginAsGuest, logout, isAuthenticated, currentClient, isGuest } = useAuth();
@@ -41,7 +42,7 @@ const LoginPopup = ({ isOpen, onClose }: LoginPopupProps) => {
     
     try {
       if (isSignUp) {
-        await register(email, password, name);
+        await register(email, password, name, company);
       } else {
         await login(email, password);
       }
@@ -132,18 +133,32 @@ const LoginPopup = ({ isOpen, onClose }: LoginPopupProps) => {
         <div className="grid gap-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             {isSignUp && (
-              <div className="space-y-2">
-                <Label htmlFor="name" className="text-white">Nom</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Votre nom"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="bg-cinema-black border-gray-700 text-white"
-                  required={isSignUp}
-                />
-              </div>
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="text-white">Nom</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="Votre nom"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="bg-cinema-black border-gray-700 text-white"
+                    required={isSignUp}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="company" className="text-white">Société</Label>
+                  <Input
+                    id="company"
+                    type="text"
+                    placeholder="Votre société"
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                    className="bg-cinema-black border-gray-700 text-white"
+                  />
+                </div>
+              </>
             )}
             
             <div className="space-y-2">

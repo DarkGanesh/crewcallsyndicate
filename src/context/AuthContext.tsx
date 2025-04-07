@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -11,7 +10,7 @@ interface AuthContextType {
   isGuest: boolean;
   currentClient: Client | null;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string) => Promise<void>;
+  register: (email: string, password: string, name: string, company?: string) => Promise<void>;
   loginAsGuest: () => void;
   logout: () => void;
 }
@@ -117,7 +116,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const register = async (email: string, password: string, name: string) => {
+  const register = async (email: string, password: string, name: string, company?: string) => {
     try {
       // Simple email validation
       if (!email.includes("@")) {
@@ -149,7 +148,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         .insert([{ 
           id: authData.user.id,
           name, 
-          email 
+          email,
+          company 
         }])
         .select()
         .single();
