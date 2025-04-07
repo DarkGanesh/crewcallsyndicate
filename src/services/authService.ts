@@ -78,7 +78,7 @@ export const authService = {
       throw new Error("La création de l'utilisateur a échoué");
     }
 
-    // IMPORTANT: Utiliser une fonction de service côté serveur pour contourner RLS
+    // IMPORTANT: Use the create_new_client RPC function to bypass RLS
     const { data: clientData, error: clientError } = await supabase.rpc('create_new_client', {
       user_id: authData.user.id,
       user_name: name,
@@ -91,7 +91,7 @@ export const authService = {
       throw new Error(clientError.message || "Erreur lors de l'ajout du client");
     }
 
-    // Récupérer le client créé
+    // Fetch the created client
     const { data: newClient, error: fetchError } = await supabase
       .from("clients")
       .select("*")
