@@ -11,6 +11,7 @@ interface AuthContextType {
   isGuest: boolean;
   currentClient: Client | null;
   login: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string, name: string) => Promise<void>;
   loginAsGuest: () => void;
   logout: () => void;
 }
@@ -77,6 +78,75 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const register = async (email: string, password: string, name: string) => {
+    try {
+      // Simple email validation
+      if (!email.includes("@")) {
+        toast({
+          title: "Format d'email invalide",
+          description: "Veuillez entrer un email valide.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Check if client with this email already exists
+      const { data: existingClient, error: checkError } = await supabase
+        .from("clients")
+        .select("*")
+        .eq("email", email)
+        .maybeSingle();
+
+      if (checkError) {
+        throw checkError;
+      }
+
+      if (existingClient) {
+        toast({
+          title: "Inscription échouée",
+          description: "Un compte avec cet email existe déjà.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Create new client
+      const { data, error } = await supabase
+        .from("clients")
+        .insert([{ name, email }])
+        .select()
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      if (data) {
+        setCurrentClient(data);
+        setIsAuthenticated(true);
+        setIsGuest(false);
+        
+        localStorage.setItem("authSession", JSON.stringify({
+          clientId: data.id,
+          isGuest: false
+        }));
+
+        toast({
+          title: "Inscription réussie",
+          description: `Bienvenue, ${data.name}!`,
+        });
+      }
+    } catch (error: any) {
+      console.error("Register error:", error);
+      toast({
+        title: "Erreur d'inscription",
+        description: error.message || "Une erreur est survenue lors de l'inscription.",
+        variant: "destructive",
+      });
+      throw error;
+    }
+  };
+
   const login = async (email: string, password: string) => {
     try {
       // Simple email validation
@@ -133,6 +203,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         description: error.message || "Une erreur est survenue lors de la connexion.",
         variant: "destructive",
       });
+      throw error;
     }
   };
 
@@ -165,6 +236,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isGuest,
     currentClient,
     login,
+    register,
     loginAsGuest,
     logout
   };

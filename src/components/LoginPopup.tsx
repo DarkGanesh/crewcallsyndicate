@@ -21,18 +21,24 @@ interface LoginPopupProps {
 const LoginPopup = ({ isOpen, onClose }: LoginPopupProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { login, loginAsGuest } = useAuth();
+  const [isSignUp, setIsSignUp] = useState(false);
+  const { login, register, loginAsGuest } = useAuth();
 
-  const handleStandardLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
     try {
-      await login(email, password);
+      if (isSignUp) {
+        await register(email, password, name);
+      } else {
+        await login(email, password);
+      }
       onClose();
     } catch (error) {
-      console.error("Login error:", error);
+      console.error(isSignUp ? "Register error:" : "Login error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -43,18 +49,41 @@ const LoginPopup = ({ isOpen, onClose }: LoginPopupProps) => {
     onClose();
   };
 
+  const toggleMode = () => {
+    setIsSignUp(!isSignUp);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md bg-cinema-darkgray border-cinema-red/20 text-white">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-white">Connexion</DialogTitle>
+          <DialogTitle className="text-xl font-bold text-white">
+            {isSignUp ? "Inscription" : "Connexion"}
+          </DialogTitle>
           <DialogDescription className="text-gray-400">
-            Connectez-vous pour accéder à votre compte ou continuez en tant qu'invité.
+            {isSignUp 
+              ? "Créez un compte pour accéder à toutes les fonctionnalités ou continuez en tant qu'invité."
+              : "Connectez-vous pour accéder à votre compte ou continuez en tant qu'invité."}
           </DialogDescription>
         </DialogHeader>
         
         <div className="grid gap-6">
-          <form onSubmit={handleStandardLogin} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {isSignUp && (
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-white">Nom</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Votre nom"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="bg-cinema-black border-gray-700 text-white"
+                  required={isSignUp}
+                />
+              </div>
+            )}
+            
             <div className="space-y-2">
               <Label htmlFor="email" className="text-white">Email</Label>
               <Input
@@ -77,6 +106,7 @@ const LoginPopup = ({ isOpen, onClose }: LoginPopupProps) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="bg-cinema-black border-gray-700 text-white"
+                required
               />
             </div>
             
@@ -85,7 +115,9 @@ const LoginPopup = ({ isOpen, onClose }: LoginPopupProps) => {
               className="w-full bg-cinema-red hover:bg-red-800 text-white"
               disabled={isLoading}
             >
-              {isLoading ? "Connexion..." : "Se connecter"}
+              {isLoading 
+                ? (isSignUp ? "Inscription..." : "Connexion...") 
+                : (isSignUp ? "S'inscrire" : "Se connecter")}
             </Button>
           </form>
           
@@ -106,6 +138,18 @@ const LoginPopup = ({ isOpen, onClose }: LoginPopupProps) => {
           >
             Continuer en tant qu'invité
           </Button>
+          
+          <div className="text-center text-sm text-gray-400">
+            {isSignUp 
+              ? "Déjà un compte ?" 
+              : "Pas encore de compte ?"} 
+            <button 
+              onClick={toggleMode} 
+              className="text-cinema-red hover:underline ml-1"
+            >
+              {isSignUp ? "Se connecter" : "S'inscrire"}
+            </button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
