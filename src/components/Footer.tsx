@@ -20,7 +20,7 @@ const Footer = () => {
               Votre partenaire pour des goodies professionnels et personnalisés dédiés aux métiers du cinéma.
             </p>
             <div className="flex space-x-4 mt-4">
-              <a href="#" className="text-gray-400 hover:text-cinema-red transition-colors">
+              <a href="https://www.instagram.com/crewcallsyndicate/profilecard/?igsh=Z3FkYTVlejlwcmww" className="text-gray-400 hover:text-cinema-red transition-colors" target="_blank" rel="noopener noreferrer">
                 <Instagram className="h-5 w-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-cinema-red transition-colors">
