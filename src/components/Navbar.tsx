@@ -4,7 +4,7 @@ import { NavLink, Link } from "react-router-dom";
 import { ShoppingCart, Menu, X, User } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
-import LoginPopup from "@/components/LoginPopup";
+import LoginPopup from "@/components/auth/LoginPopup";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
