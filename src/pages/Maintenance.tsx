@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Film, Clapperboard, Camera, RefreshCw } from "lucide-react";
+import { Film, Clapperboard, Camera } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
@@ -11,30 +12,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 // Schéma de validation pour le formulaire
 const formSchema = z.object({
-  password: z.string().min(1, { message: "Le mot de passe est requis" }),
-  captcha: z.string().min(1, { message: "Veuillez résoudre le CAPTCHA" }).refine((val) => {
-    // Rendre la validation du CAPTCHA insensible à la casse
-    const storedCaptcha = sessionStorage.getItem('captchaValue') || '';
-    return val.toLowerCase() === storedCaptcha.toLowerCase();
-  }, {
-    message: "CAPTCHA incorrect"
-  })
+  password: z.string().min(1, { message: "Le mot de passe est requis" })
 });
 
 const Maintenance = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [iconIndex, setIconIndex] = useState(0);
   const [logoVisible, setLogoVisible] = useState(false);
-  const [captchaValue, setCaptchaValue] = useState("");
-  const captchaCanvasRef = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      password: "",
-      captcha: ""
+      password: ""
     },
   });
   
@@ -75,72 +66,6 @@ const Maintenance = () => {
     
     return () => clearTimeout(timer);
   }, []);
-
-  // Génère un CAPTCHA aléatoire
-  const generateCaptcha = () => {
-    const canvas = captchaCanvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Générer un code aléatoire de 6 caractères
-    const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
-    let captchaCode = '';
-    for (let i = 0; i < 6; i++) {
-      captchaCode += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-
-    // Stocker le code pour vérification
-    sessionStorage.setItem('captchaValue', captchaCode);
-    setCaptchaValue(captchaCode);
-
-    // Nettoyer le canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#0a0a0a';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Dessiner le texte avec des effets
-    ctx.font = 'bold 24px Arial';
-    ctx.fillStyle = '#e11d48';
-    ctx.textBaseline = 'middle';
-    
-    // Ajouter du bruit et déformer le texte
-    for (let i = 0; i < captchaCode.length; i++) {
-      const x = 20 + i * 20 + Math.random() * 10 - 5;
-      const y = canvas.height / 2 + Math.random() * 10 - 5;
-      const angle = Math.random() * 0.2 - 0.1;
-      
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(angle);
-      ctx.fillText(captchaCode[i], 0, 0);
-      ctx.restore();
-    }
-    
-    // Ajouter des lignes aléatoires
-    for (let i = 0; i < 5; i++) {
-      ctx.beginPath();
-      ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
-      ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
-      ctx.strokeStyle = `rgba(225, 29, 72, ${Math.random() * 0.5 + 0.1})`; // rouge cinema avec opacité variable
-      ctx.lineWidth = Math.random() * 2 + 1;
-      ctx.stroke();
-    }
-    
-    // Ajouter des points aléatoires
-    for (let i = 0; i < 50; i++) {
-      ctx.fillStyle = `rgba(225, 29, 72, ${Math.random() * 0.5 + 0.1})`;
-      ctx.beginPath();
-      ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 2, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  };
-
-  // Générer le CAPTCHA au chargement
-  useEffect(() => {
-    generateCaptcha();
-  }, []);
   
   const icons = [
     <Film key="film" className="h-10 w-10 text-cinema-red animate-pulse" />,
@@ -154,7 +79,7 @@ const Maintenance = () => {
 
     // Simulation d'un délai de vérification
     setTimeout(() => {
-      // Rendre la validation du mot de passe insensible à la casse aussi
+      // Rendre la validation du mot de passe insensible à la casse
       if (values.password.toLowerCase() === "julienleboss".toLowerCase()) {
         // Mot de passe correct
         toast({
@@ -176,9 +101,7 @@ const Maintenance = () => {
           variant: "destructive",
         });
         
-        // Régénérer le CAPTCHA après chaque tentative
-        generateCaptcha();
-        form.resetField("captcha");
+        form.resetField("password");
       }
       setIsLoading(false);
     }, 800);
@@ -219,44 +142,6 @@ const Maintenance = () => {
                         type="password"
                         placeholder="Entrez le mot de passe"
                         className="bg-cinema-black border-cinema-red/20 focus:border-cinema-red transition-all duration-300 hover:border-cinema-red/50"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-cinema-red" />
-                  </FormItem>
-                )}
-              />
-              
-              <div className="space-y-2">
-                <FormLabel className="text-white">CAPTCHA de sécurité</FormLabel>
-                <div className="relative bg-cinema-black border border-cinema-red/20 rounded-md p-2 flex flex-col items-center">
-                  <canvas 
-                    ref={captchaCanvasRef} 
-                    width="180" 
-                    height="60" 
-                    className="mb-2 rounded"
-                  />
-                  <button 
-                    type="button" 
-                    className="absolute top-3 right-3 text-cinema-red hover:text-white transition-colors p-1"
-                    onClick={generateCaptcha}
-                  >
-                    <RefreshCw size={16} />
-                  </button>
-                </div>
-              </div>
-
-              <FormField
-                control={form.control}
-                name="captcha"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Entrez le code affiché"
-                        className="bg-cinema-black border-cinema-red/20 focus:border-cinema-red transition-all duration-300 hover:border-cinema-red/50"
-                        autoComplete="off"
                         {...field}
                       />
                     </FormControl>
