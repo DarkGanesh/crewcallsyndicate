@@ -17,11 +17,13 @@ const LoginForm = ({ onGuestLogin, toggleMode, isSignUp }: LoginFormProps) => {
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { login, register } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
     
     try {
       if (isSignUp) {
@@ -29,8 +31,14 @@ const LoginForm = ({ onGuestLogin, toggleMode, isSignUp }: LoginFormProps) => {
       } else {
         await login(email, password);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(isSignUp ? "Register error:" : "Login error:", error);
+      setError(
+        error.message || 
+        (isSignUp 
+          ? "Erreur lors de l'inscription. Veuillez réessayer." 
+          : "Email ou mot de passe incorrect.")
+      );
     } finally {
       setIsLoading(false);
     }
@@ -93,6 +101,12 @@ const LoginForm = ({ onGuestLogin, toggleMode, isSignUp }: LoginFormProps) => {
             required
           />
         </div>
+        
+        {error && (
+          <div className="text-red-500 text-sm p-2 bg-red-900/20 rounded border border-red-500/20">
+            {error}
+          </div>
+        )}
         
         <Button
           type="submit"

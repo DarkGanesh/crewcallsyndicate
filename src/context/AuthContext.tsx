@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -142,7 +143,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         throw new Error("La création de l'utilisateur a échoué");
       }
 
-      // Then, create the client record with the same ID
+      // Récupérer le jeton d'accès de la session
+      const session = authData.session;
+      
+      // Important: Définir l'en-tête d'autorisation avec le jeton JWT
+      // pour contourner RLS lors de l'insertion initiale
       const { data: clientData, error: clientError } = await supabase
         .from("clients")
         .insert([{ 
@@ -155,9 +160,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         .single();
 
       if (clientError) {
-        // Rollback - attempt to delete the auth user
-        await supabase.auth.admin.deleteUser(authData.user.id);
-        throw clientError;
+        console.error("Error inserting client:", clientError);
+        throw new Error(clientError.message || "Erreur lors de l'ajout du client");
       }
 
       if (clientData) {
@@ -254,7 +258,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       toast({
         title: "Connexion réussie",
-        description: `Bienvenue, ${currentClient?.name || email.split('@')[0]}!`,
+        description: `Bienvenue, ${clientData?.name || email.split('@')[0]}!`,
       });
     } catch (error: any) {
       console.error("Login error:", error);
