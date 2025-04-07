@@ -33,7 +33,6 @@ const LoginPopup = ({ isOpen, onClose }: LoginPopupProps) => {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const [showProfileDialog, setShowProfileDialog] = useState(false);
   const { login, register, loginAsGuest, logout, isAuthenticated, currentClient, isGuest } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,11 +60,15 @@ const LoginPopup = ({ isOpen, onClose }: LoginPopupProps) => {
 
   const toggleMode = () => {
     setIsSignUp(!isSignUp);
+    // Reset form fields when switching modes
+    setEmail("");
+    setPassword("");
+    setName("");
   };
 
   const handleLogout = () => {
     logout();
-    setShowProfileDialog(false);
+    onClose();
   };
 
   // Show different content based on authentication state
@@ -205,6 +208,7 @@ const LoginPopup = ({ isOpen, onClose }: LoginPopupProps) => {
             <button 
               onClick={toggleMode} 
               className="text-cinema-red hover:underline ml-1"
+              type="button"
             >
               {isSignUp ? "Se connecter" : "S'inscrire"}
             </button>

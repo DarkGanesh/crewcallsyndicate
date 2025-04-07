@@ -54,7 +54,46 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem("authSession");
       }
     }
+    
+    // Also check for active Supabase session
+    checkSupabaseSession();
   }, []);
+
+  const checkSupabaseSession = async () => {
+    try {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error) {
+        throw error;
+      }
+      
+      if (session && session.user) {
+        // Try to find client with the matching Supabase auth ID
+        const { data, error: clientError } = await supabase
+          .from("clients")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
+          
+        if (clientError) {
+          console.error("Error fetching client after auth session check:", clientError);
+          return;
+        }
+        
+        if (data) {
+          setCurrentClient(data);
+          setIsAuthenticated(true);
+          setIsGuest(false);
+          
+          localStorage.setItem("authSession", JSON.stringify({
+            clientId: data.id,
+            isGuest: false
+          }));
+        }
+      }
+    } catch (error) {
+      console.error("Error checking Supabase session:", error);
+    }
+  };
 
   const fetchClientData = async (clientId: string) => {
     try {
@@ -90,50 +129,50 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return;
       }
 
-      // Check if client with this email already exists
-      const { data: existingClient, error: checkError } = await supabase
-        .from("clients")
-        .select("*")
-        .eq("email", email)
-        .maybeSingle();
+      // First, create the auth user
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+      });
 
-      if (checkError) {
-        throw checkError;
+      if (authError) {
+        throw authError;
       }
 
-      if (existingClient) {
-        toast({
-          title: "Inscription échouée",
-          description: "Un compte avec cet email existe déjà.",
-          variant: "destructive",
-        });
-        return;
+      if (!authData.user) {
+        throw new Error("La création de l'utilisateur a échoué");
       }
 
-      // Create new client
-      const { data, error } = await supabase
+      // Then, create the client record with the same ID
+      const { data: clientData, error: clientError } = await supabase
         .from("clients")
-        .insert([{ name, email }])
+        .insert([{ 
+          id: authData.user.id,
+          name, 
+          email 
+        }])
         .select()
         .single();
 
-      if (error) {
-        throw error;
+      if (clientError) {
+        // Rollback - attempt to delete the auth user
+        await supabase.auth.admin.deleteUser(authData.user.id);
+        throw clientError;
       }
 
-      if (data) {
-        setCurrentClient(data);
+      if (clientData) {
+        setCurrentClient(clientData);
         setIsAuthenticated(true);
         setIsGuest(false);
         
         localStorage.setItem("authSession", JSON.stringify({
-          clientId: data.id,
+          clientId: clientData.id,
           isGuest: false
         }));
 
         toast({
           title: "Inscription réussie",
-          description: `Bienvenue, ${data.name}!`,
+          description: `Bienvenue, ${clientData.name}!`,
         });
       }
     } catch (error: any) {
@@ -159,42 +198,63 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return;
       }
 
-      // Find client by email
-      const { data, error } = await supabase
+      // Sign in with Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (authError) {
+        throw authError;
+      }
+
+      if (!authData.user) {
+        throw new Error("La connexion a échoué");
+      }
+
+      // Fetch client data by auth ID
+      const { data: clientData, error: clientError } = await supabase
         .from("clients")
         .select("*")
-        .eq("email", email)
-        .maybeSingle();
+        .eq("id", authData.user.id)
+        .single();
 
-      if (error) {
-        throw error;
+      if (clientError) {
+        // If no client exists for this user, create one
+        if (clientError.code === 'PGRST116') {
+          const { data: newClient, error: createError } = await supabase
+            .from("clients")
+            .insert([{ 
+              id: authData.user.id,
+              name: email.split('@')[0], // Temporary name from email
+              email 
+            }])
+            .select()
+            .single();
+
+          if (createError) {
+            throw createError;
+          }
+          
+          setCurrentClient(newClient);
+        } else {
+          throw clientError;
+        }
+      } else {
+        setCurrentClient(clientData);
       }
-
-      if (!data) {
-        toast({
-          title: "Connexion échouée",
-          description: "Email ou mot de passe incorrect.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // In a real app, you would verify the password here
-      // This is a simplified example without proper password hashing
       
-      // Store session
-      setCurrentClient(data);
       setIsAuthenticated(true);
       setIsGuest(false);
       
       localStorage.setItem("authSession", JSON.stringify({
-        clientId: data.id,
+        clientId: authData.user.id,
         isGuest: false
       }));
 
       toast({
         title: "Connexion réussie",
-        description: `Bienvenue, ${data.name}!`,
+        description: `Bienvenue, ${currentClient?.name || email.split('@')[0]}!`,
       });
     } catch (error: any) {
       console.error("Login error:", error);
@@ -220,11 +280,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
   };
 
-  const logout = () => {
+  const logout = async () => {
+    // Sign out from Supabase Auth
+    await supabase.auth.signOut();
+    
     setIsAuthenticated(false);
     setIsGuest(false);
     setCurrentClient(null);
     localStorage.removeItem("authSession");
+    
     toast({
       title: "Déconnexion",
       description: "Vous êtes déconnecté.",
