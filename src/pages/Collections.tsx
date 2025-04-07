@@ -1,10 +1,12 @@
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { 
   Film, Camera, Headphones, Mic, Speaker, Scissors, Truck, 
   BatteryCharging, Users, FileEdit, Palette, Briefcase, 
-  Sparkles, Shirt, Clapperboard, FlaskConical, Dumbbell 
+  Sparkles, Shirt, Clapperboard, FlaskConical, Dumbbell, 
+  ArrowLeft
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -195,10 +197,17 @@ const Collections = () => {
               Notre équipe de production travaille jour et nuit pour créer des collections exceptionnelles dédiées aux professionnels du cinéma. Revenez bientôt pour découvrir nos produits exclusifs !
             </p>
 
-            <Link to="/contact" className="button-cinema inline-flex items-center">
-              <Clapperboard className="mr-2 h-5 w-5" />
-              Être notifié au lancement
-            </Link>
+            <div className="flex space-x-4">
+              <Link to="/contact" className="button-cinema inline-flex items-center">
+                <Clapperboard className="mr-2 h-5 w-5" />
+                Être notifié au lancement
+              </Link>
+              
+              <Link to="/accueil" className="button-cinema-outline inline-flex items-center">
+                <ArrowLeft className="mr-2 h-5 w-5" />
+                Retour au site
+              </Link>
+            </div>
           </div>
         </div>
 
