@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -38,7 +39,7 @@ const Clients = () => {
   const [clientToDelete, setClientToDelete] = useState<Client | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { isAuthenticated, isGuest } = useAuth();
+  const { isAuthenticated, isGuest, currentClient } = useAuth();
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -48,10 +49,15 @@ const Clients = () => {
         description: "Vous devez être connecté pour accéder à cette page.",
         variant: "destructive",
       });
+    } else if (isGuest) {
+      // Pour les invités, montrer un message et limiter les fonctionnalités
+      fetchClients();
     } else {
+      // Pour les utilisateurs authentifiés, charger uniquement leurs propres clients
+      // (RLS s'en chargera automatiquement)
       fetchClients();
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, isGuest, navigate]);
 
   const fetchClients = async () => {
     try {
@@ -76,6 +82,8 @@ const Clients = () => {
     }
   };
 
+  // Grâce à la RLS, l'utilisateur ne pourra voir et modifier
+  // que ses propres clients, donc ces fonctions restent les mêmes
   const handleAddClient = () => {
     setSelectedClient(null);
     setShowForm(true);
