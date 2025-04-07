@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -171,6 +172,38 @@ const Collections = () => {
     <div className="min-h-screen flex flex-col bg-cinema-black">
       <Navbar />
       <main className="flex-grow">
+        {/* Coming Soon Cinema Overlay */}
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-cinema-black/90">
+          <div className="max-w-2xl w-full p-8 flex flex-col items-center">
+            <div className="w-full mb-6 relative">
+              <div className="clapper-top bg-cinema-red/90 h-16 w-full rounded-t-md p-4 flex justify-between items-center transform origin-bottom animate-[clap-open_1.5s_ease-in-out_infinite_alternate]">
+                <div className="text-white font-bold text-2xl">CREW CALL SYNDICATE</div>
+                <div className="text-white font-bold">PREND 1</div>
+              </div>
+              <div className="clapper-bottom bg-cinema-darkgray h-40 w-full rounded-b-md p-6 flex flex-col justify-center">
+                <div className="text-4xl md:text-5xl font-black text-white mb-2 tracking-tighter flex flex-col">
+                  <span className="text-cinema-red">PROCHAINEMENT</span>
+                  <span className="text-2xl mt-1">Collections en préparation</span>
+                </div>
+                <div className="flex space-x-2 mt-6">
+                  <div className="h-1.5 bg-white/80 w-24 rounded-full"></div>
+                  <div className="h-1.5 bg-white/60 w-10 rounded-full"></div>
+                  <div className="h-1.5 bg-white/40 w-16 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+            
+            <p className="text-gray-400 text-center mb-8">
+              Notre équipe de production travaille jour et nuit pour créer des collections exceptionnelles dédiées aux professionnels du cinéma. Revenez bientôt pour découvrir nos produits exclusifs !
+            </p>
+
+            <Link to="/contact" className="button-cinema inline-flex items-center">
+              <Clapperboard className="mr-2 h-5 w-5" />
+              Être notifié au lancement
+            </Link>
+          </div>
+        </div>
+
         <div className="relative bg-cinema-darkgray py-16 border-b border-cinema-red/20 overflow-hidden">
           <div className="absolute inset-0 opacity-20">
             <img 
