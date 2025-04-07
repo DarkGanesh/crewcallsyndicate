@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Phone, Send, ShoppingCart } from "lucide-react";
+import { Mail, Phone, Send } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { toast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
@@ -350,41 +350,13 @@ const MarquageTextile = () => {
                     />
                   </div>
                   
-                  <div className="flex space-x-4">
+                  <div className="flex">
                     <Button 
                       type="submit"
-                      className="button-cinema flex-1 flex items-center justify-center"
+                      className="button-cinema w-full flex items-center justify-center"
                     >
                       <Send className="h-4 w-4 mr-2" />
                       Demander un devis
-                    </Button>
-                    
-                    <Button 
-                      type="button"
-                      className="button-cinema-outline flex items-center justify-center"
-                      onClick={() => {
-                        const data = form.getValues();
-                        const textile = textileOptions.find(t => t.value === data.textileType);
-                        
-                        if (textile) {
-                          addToCart({
-                            id: `textile-${Date.now()}`,
-                            name: `Marquage ${textile.label} (x${data.quantity})`,
-                            imageUrl: textile.image,
-                            price: 0, // Price is "sur devis"
-                            quantity: 1,
-                            customizable: true,
-                            selectedQuantity: data.quantity
-                          });
-                          
-                          toast({
-                            title: "Ajouté au panier",
-                            description: `${textile.label} ajouté à votre panier. N'oubliez pas de finaliser votre demande.`,
-                          });
-                        }
-                      }}
-                    >
-                      <ShoppingCart className="h-4 w-4" />
                     </Button>
                   </div>
                 </form>
