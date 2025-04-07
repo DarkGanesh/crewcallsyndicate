@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -171,16 +170,15 @@ const Collections = () => {
   return (
     <div className="min-h-screen flex flex-col bg-cinema-black">
       <Navbar />
-      <main className="flex-grow">
-        {/* Coming Soon Cinema Overlay */}
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-cinema-black/90">
+      <main className="flex-grow relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-cinema-black/90 backdrop-blur-sm">
           <div className="max-w-2xl w-full p-8 flex flex-col items-center">
             <div className="w-full mb-6 relative">
-              <div className="clapper-top bg-cinema-red/90 h-16 w-full rounded-t-md p-4 flex justify-between items-center transform origin-bottom animate-[clap-open_1.5s_ease-in-out_infinite_alternate]">
+              <div className="bg-cinema-red/90 h-16 w-full rounded-t-md p-4 flex justify-between items-center">
                 <div className="text-white font-bold text-2xl">CREW CALL SYNDICATE</div>
                 <div className="text-white font-bold">PREND 1</div>
               </div>
-              <div className="clapper-bottom bg-cinema-darkgray h-40 w-full rounded-b-md p-6 flex flex-col justify-center">
+              <div className="bg-cinema-darkgray h-40 w-full rounded-b-md p-6 flex flex-col justify-center">
                 <div className="text-4xl md:text-5xl font-black text-white mb-2 tracking-tighter flex flex-col">
                   <span className="text-cinema-red">PROCHAINEMENT</span>
                   <span className="text-2xl mt-1">Collections en préparation</span>
@@ -204,125 +202,127 @@ const Collections = () => {
           </div>
         </div>
 
-        <div className="relative bg-cinema-darkgray py-16 border-b border-cinema-red/20 overflow-hidden">
-          <div className="absolute inset-0 opacity-20">
-            <img 
-              src="https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
-              alt="Tournage en coulisses" 
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-cinema-black via-transparent to-cinema-black"></div>
-          </div>
-          
-          <div className="cinema-container relative z-10">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-              🎬 Collections <span className="text-cinema-red">Métiers du Cinéma</span>
-            </h1>
-            <h2 className="text-xl md:text-2xl font-semibold text-white mb-6">
-              AFFICHEZ VOTRE EXPERTISE AVEC STYLE !
-            </h2>
-            <p className="text-gray-400 mt-4 max-w-2xl">
-              Découvrez nos gammes de produits spécialement conçues pour répondre aux besoins 
-              spécifiques de chaque métier du 7ème art. Des vêtements robustes pour les équipes 
-              techniques aux accessoires élégants pour les directeurs artistiques.
-            </p>
-          </div>
-        </div>
-
-        <div className="py-8 bg-cinema-black border-b border-cinema-darkgray">
-          <div className="cinema-container">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="text-white font-medium">Filtrer par type :</span>
-              <button 
-                className={`px-3 py-1 rounded-full text-sm ${filter === null ? 'bg-cinema-red text-white' : 'bg-cinema-darkgray text-gray-300 hover:bg-cinema-darkgray/80'}`}
-                onClick={() => handleFilterChange(null)}
-              >
-                Tous
-              </button>
-              <button 
-                className={`px-3 py-1 rounded-full text-sm ${filter === 'vêtement' ? 'bg-cinema-red text-white' : 'bg-cinema-darkgray text-gray-300 hover:bg-cinema-darkgray/80'}`}
-                onClick={() => handleFilterChange('vêtement')}
-              >
-                Vêtements
-              </button>
-              <button 
-                className={`px-3 py-1 rounded-full text-sm ${filter === 'accessoire' ? 'bg-cinema-red text-white' : 'bg-cinema-darkgray text-gray-300 hover:bg-cinema-darkgray/80'}`}
-                onClick={() => handleFilterChange('accessoire')}
-              >
-                Accessoires
-              </button>
-              <button 
-                className={`px-3 py-1 rounded-full text-sm ${filter === 'équipement' ? 'bg-cinema-red text-white' : 'bg-cinema-darkgray text-gray-300 hover:bg-cinema-darkgray/80'}`}
-                onClick={() => handleFilterChange('équipement')}
-              >
-                Équipements
-              </button>
+        <div className="filter grayscale opacity-20">
+          <div className="relative bg-cinema-darkgray py-16 border-b border-cinema-red/20 overflow-hidden">
+            <div className="absolute inset-0 opacity-20">
+              <img 
+                src="https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
+                alt="Tournage en coulisses" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-cinema-black via-transparent to-cinema-black"></div>
+            </div>
+            
+            <div className="cinema-container relative z-10">
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                🎬 Collections <span className="text-cinema-red">Métiers du Cinéma</span>
+              </h1>
+              <h2 className="text-xl md:text-2xl font-semibold text-white mb-6">
+                AFFICHEZ VOTRE EXPERTISE AVEC STYLE !
+              </h2>
+              <p className="text-gray-400 mt-4 max-w-2xl">
+                Découvrez nos gammes de produits spécialement conçues pour répondre aux besoins 
+                spécifiques de chaque métier du 7ème art. Des vêtements robustes pour les équipes 
+                techniques aux accessoires élégants pour les directeurs artistiques.
+              </p>
             </div>
           </div>
-        </div>
 
-        <div className="py-12 bg-cinema-black">
-          <div className="cinema-container">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {jobCategories.map((category, index) => (
-                <JobCategory key={index} {...category} />
-              ))}
+          <div className="py-8 bg-cinema-black border-b border-cinema-darkgray">
+            <div className="cinema-container">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-white font-medium">Filtrer par type :</span>
+                <button 
+                  className={`px-3 py-1 rounded-full text-sm ${filter === null ? 'bg-cinema-red text-white' : 'bg-cinema-darkgray text-gray-300 hover:bg-cinema-darkgray/80'}`}
+                  onClick={() => handleFilterChange(null)}
+                >
+                  Tous
+                </button>
+                <button 
+                  className={`px-3 py-1 rounded-full text-sm ${filter === 'vêtement' ? 'bg-cinema-red text-white' : 'bg-cinema-darkgray text-gray-300 hover:bg-cinema-darkgray/80'}`}
+                  onClick={() => handleFilterChange('vêtement')}
+                >
+                  Vêtements
+                </button>
+                <button 
+                  className={`px-3 py-1 rounded-full text-sm ${filter === 'accessoire' ? 'bg-cinema-red text-white' : 'bg-cinema-darkgray text-gray-300 hover:bg-cinema-darkgray/80'}`}
+                  onClick={() => handleFilterChange('accessoire')}
+                >
+                  Accessoires
+                </button>
+                <button 
+                  className={`px-3 py-1 rounded-full text-sm ${filter === 'équipement' ? 'bg-cinema-red text-white' : 'bg-cinema-darkgray text-gray-300 hover:bg-cinema-darkgray/80'}`}
+                  onClick={() => handleFilterChange('équipement')}
+                >
+                  Équipements
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="py-16 bg-cinema-darkgray relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10">
-            <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+          <div className="py-12 bg-cinema-black">
+            <div className="cinema-container">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {jobCategories.map((category, index) => (
+                  <JobCategory key={index} {...category} />
+                ))}
+              </div>
+            </div>
           </div>
-          
-          <div className="cinema-container relative z-10">
-            <div className="border-2 border-yellow-500 p-8 rounded-lg" style={{ background: "repeating-linear-gradient(45deg, #1a1a1a, #1a1a1a 10px, #222 10px, #222 20px)" }}>
-              <div className="flex flex-col md:flex-row gap-8 items-center">
-                <div className="md:w-1/3">
-                  <img 
-                    src="https://images.unsplash.com/photo-1620331317312-88a1b06e2f7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                    alt="Clap de cinéma" 
-                    className="rounded-md shadow-lg"
-                  />
-                </div>
-                <div className="md:w-2/3">
-                  <h2 className="text-2xl font-bold text-white mb-4">
-                    Créez votre identité d'équipe
-                  </h2>
-                  <p className="text-gray-300 mb-6">
-                    Grâce à nos collections dédiées à chaque métier du cinéma, démarquez-vous sur les plateaux et 
-                    affirmez votre expertise. Chaque pièce est conçue en pensant aux besoins spécifiques de votre profession.
-                  </p>
-                  <div className="flex space-x-4">
-                    <Link to="/personnalisation" className="button-cinema">
-                      Personnaliser un produit
-                    </Link>
-                    <Link to="/contact" className="button-cinema-outline">
-                      Demander un devis groupe
-                    </Link>
+
+          <div className="py-16 bg-cinema-darkgray relative overflow-hidden">
+            <div className="absolute inset-0 opacity-10">
+              <div className="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+            </div>
+            
+            <div className="cinema-container relative z-10">
+              <div className="border-2 border-yellow-500 p-8 rounded-lg" style={{ background: "repeating-linear-gradient(45deg, #1a1a1a, #1a1a1a 10px, #222 10px, #222 20px)" }}>
+                <div className="flex flex-col md:flex-row gap-8 items-center">
+                  <div className="md:w-1/3">
+                    <img 
+                      src="https://images.unsplash.com/photo-1620331317312-88a1b06e2f7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                      alt="Clap de cinéma" 
+                      className="rounded-md shadow-lg"
+                    />
+                  </div>
+                  <div className="md:w-2/3">
+                    <h2 className="text-2xl font-bold text-white mb-4">
+                      Créez votre identité d'équipe
+                    </h2>
+                    <p className="text-gray-300 mb-6">
+                      Grâce à nos collections dédiées à chaque métier du cinéma, démarquez-vous sur les plateaux et 
+                      affirmez votre expertise. Chaque pièce est conçue en pensant aux besoins spécifiques de votre profession.
+                    </p>
+                    <div className="flex space-x-4">
+                      <Link to="/personnalisation" className="button-cinema">
+                        Personnaliser un produit
+                      </Link>
+                      <Link to="/contact" className="button-cinema-outline">
+                        Demander un devis groupe
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="py-16 bg-cinema-black border-t border-cinema-red/20">
-          <div className="cinema-container text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              Nouvelles Collections en Préparation
-            </h2>
-            <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-              Notre équipe travaille actuellement sur de nouvelles collections spécifiques pour d'autres professions du cinéma. 
-              Vous ne trouvez pas votre métier ? Contactez-nous pour nous faire part de vos besoins !
-            </p>
-            <Link 
-              to="/contact" 
-              className="button-cinema-outline inline-flex"
-            >
-              Suggérer un métier
-            </Link>
+          <div className="py-16 bg-cinema-black border-t border-cinema-red/20">
+            <div className="cinema-container text-center">
+              <h2 className="text-2xl font-bold text-white mb-4">
+                Nouvelles Collections en Préparation
+              </h2>
+              <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+                Notre équipe travaille actuellement sur de nouvelles collections spécifiques pour d'autres professions du cinéma. 
+                Vous ne trouvez pas votre métier ? Contactez-nous pour nous faire part de vos besoins !
+              </p>
+              <Link 
+                to="/contact" 
+                className="button-cinema-outline inline-flex"
+              >
+                Suggérer un métier
+              </Link>
+            </div>
           </div>
         </div>
       </main>
