@@ -24,7 +24,7 @@ function App() {
           createBrowserRouter([
             {
               path: "/",
-              element: <Maintenance />,
+              element: <Navigate to="/maintenance" />,
               errorElement: <NotFound />
             },
             {
