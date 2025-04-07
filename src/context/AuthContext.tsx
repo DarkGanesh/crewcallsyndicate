@@ -1,7 +1,8 @@
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuthSession } from "@/hooks/useAuthSession";
+import { authService } from "@/services/authService";
 import type { Database } from "@/integrations/supabase/types";
 
 type Client = Database['public']['Tables']['clients']['Row'];
@@ -31,230 +32,21 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isGuest, setIsGuest] = useState(false);
-  const [currentClient, setCurrentClient] = useState<Client | null>(null);
+  const { isAuthenticated, isGuest, currentClient, setSessionState } = useAuthSession();
   const { toast } = useToast();
-
-  // Check for existing session in localStorage
-  useEffect(() => {
-    const storedSession = localStorage.getItem("authSession");
-    if (storedSession) {
-      try {
-        const session = JSON.parse(storedSession);
-        if (session.isGuest) {
-          setIsGuest(true);
-          setIsAuthenticated(true);
-        } else if (session.clientId) {
-          // Fetch client data
-          fetchClientData(session.clientId);
-        }
-      } catch (error) {
-        console.error("Error parsing stored session:", error);
-        localStorage.removeItem("authSession");
-      }
-    }
-    
-    // Also check for active Supabase session
-    checkSupabaseSession();
-  }, []);
-
-  const checkSupabaseSession = async () => {
-    try {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      if (error) {
-        throw error;
-      }
-      
-      if (session && session.user) {
-        // Try to find client with the matching Supabase auth ID
-        const { data, error: clientError } = await supabase
-          .from("clients")
-          .select("*")
-          .eq("id", session.user.id)
-          .single();
-          
-        if (clientError) {
-          console.error("Error fetching client after auth session check:", clientError);
-          return;
-        }
-        
-        if (data) {
-          setCurrentClient(data);
-          setIsAuthenticated(true);
-          setIsGuest(false);
-          
-          localStorage.setItem("authSession", JSON.stringify({
-            clientId: data.id,
-            isGuest: false
-          }));
-        }
-      }
-    } catch (error) {
-      console.error("Error checking Supabase session:", error);
-    }
-  };
-
-  const fetchClientData = async (clientId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from("clients")
-        .select("*")
-        .eq("id", clientId)
-        .single();
-
-      if (error) {
-        throw error;
-      }
-
-      if (data) {
-        setCurrentClient(data);
-        setIsAuthenticated(true);
-      }
-    } catch (error) {
-      console.error("Error fetching client:", error);
-      localStorage.removeItem("authSession");
-    }
-  };
-
-  const register = async (email: string, password: string, name: string, company?: string) => {
-    try {
-      // Simple email validation
-      if (!email.includes("@")) {
-        toast({
-          title: "Format d'email invalide",
-          description: "Veuillez entrer un email valide.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // First, create the auth user
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-
-      if (authError) {
-        throw authError;
-      }
-
-      if (!authData.user) {
-        throw new Error("La création de l'utilisateur a échoué");
-      }
-
-      // IMPORTANT: Utiliser une fonction de service côté serveur pour contourner RLS
-      // Cette fonction est directement exposée dans l'API REST et ignore les politiques RLS
-      const { data: clientData, error: clientError } = await supabase.rpc('create_new_client', {
-        user_id: authData.user.id,
-        user_name: name,
-        user_email: email,
-        user_company: company || null
-      });
-
-      if (clientError) {
-        console.error("Error inserting client:", clientError);
-        throw new Error(clientError.message || "Erreur lors de l'ajout du client");
-      }
-
-      // Récupérer le client créé
-      const { data: newClient, error: fetchError } = await supabase
-        .from("clients")
-        .select("*")
-        .eq("id", authData.user.id)
-        .single();
-
-      if (fetchError) {
-        console.error("Error fetching new client:", fetchError);
-      } else if (newClient) {
-        setCurrentClient(newClient);
-        setIsAuthenticated(true);
-        setIsGuest(false);
-        
-        localStorage.setItem("authSession", JSON.stringify({
-          clientId: newClient.id,
-          isGuest: false
-        }));
-
-        toast({
-          title: "Inscription réussie",
-          description: `Bienvenue, ${newClient.name}!`,
-        });
-      }
-    } catch (error: any) {
-      console.error("Register error:", error);
-      toast({
-        title: "Erreur d'inscription",
-        description: error.message || "Une erreur est survenue lors de l'inscription.",
-        variant: "destructive",
-      });
-      throw error;
-    }
-  };
 
   const login = async (email: string, password: string) => {
     try {
-      // Simple email validation
-      if (!email.includes("@")) {
-        toast({
-          title: "Format d'email invalide",
-          description: "Veuillez entrer un email valide.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // Sign in with Supabase Auth
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (authError) {
-        throw authError;
-      }
-
-      if (!authData.user) {
-        throw new Error("La connexion a échoué");
-      }
-
-      // Fetch client data by auth ID
-      const { data: clientData, error: clientError } = await supabase
-        .from("clients")
-        .select("*")
-        .eq("id", authData.user.id)
-        .single();
-
-      if (clientError) {
-        // If no client exists for this user, create one
-        if (clientError.code === 'PGRST116') {
-          const { data: newClient, error: createError } = await supabase
-            .from("clients")
-            .insert([{ 
-              id: authData.user.id,
-              name: email.split('@')[0], // Temporary name from email
-              email 
-            }])
-            .select()
-            .single();
-
-          if (createError) {
-            throw createError;
-          }
-          
-          setCurrentClient(newClient);
-        } else {
-          throw clientError;
-        }
-      } else {
-        setCurrentClient(clientData);
-      }
+      const clientData = await authService.login(email, password);
       
-      setIsAuthenticated(true);
-      setIsGuest(false);
+      setSessionState({
+        isAuthenticated: true,
+        isGuest: false,
+        currentClient: clientData
+      });
       
       localStorage.setItem("authSession", JSON.stringify({
-        clientId: authData.user.id,
+        clientId: clientData.id,
         isGuest: false
       }));
 
@@ -273,13 +65,47 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const register = async (email: string, password: string, name: string, company?: string) => {
+    try {
+      const newClient = await authService.register(email, password, name, company);
+      
+      setSessionState({
+        isAuthenticated: true,
+        isGuest: false,
+        currentClient: newClient
+      });
+      
+      localStorage.setItem("authSession", JSON.stringify({
+        clientId: newClient.id,
+        isGuest: false
+      }));
+
+      toast({
+        title: "Inscription réussie",
+        description: `Bienvenue, ${newClient.name}!`,
+      });
+    } catch (error: any) {
+      console.error("Register error:", error);
+      toast({
+        title: "Erreur d'inscription",
+        description: error.message || "Une erreur est survenue lors de l'inscription.",
+        variant: "destructive",
+      });
+      throw error;
+    }
+  };
+
   const loginAsGuest = () => {
-    setIsGuest(true);
-    setIsAuthenticated(true);
-    setCurrentClient(null);
+    setSessionState({
+      isAuthenticated: true,
+      isGuest: true,
+      currentClient: null
+    });
+    
     localStorage.setItem("authSession", JSON.stringify({
       isGuest: true
     }));
+    
     toast({
       title: "Connexion invité",
       description: "Vous êtes connecté en tant qu'invité.",
@@ -288,11 +114,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = async () => {
     // Sign out from Supabase Auth
-    await supabase.auth.signOut();
+    await authService.logout();
     
-    setIsAuthenticated(false);
-    setIsGuest(false);
-    setCurrentClient(null);
+    setSessionState({
+      isAuthenticated: false,
+      isGuest: false,
+      currentClient: null
+    });
+    
     localStorage.removeItem("authSession");
     
     toast({
