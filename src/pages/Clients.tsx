@@ -27,17 +27,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import type { Database } from "@/integrations/supabase/types";
 
-interface Client {
-  id: string;
-  name: string;
-  email: string | null;
-  phone: string | null;
-  company: string | null;
-  address: string | null;
-  created_at: string;
-  updated_at: string;
-}
+type Client = Database['public']['Tables']['clients']['Row'];
 
 const Clients = () => {
   const [clients, setClients] = useState<Client[]>([]);

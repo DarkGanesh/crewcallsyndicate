@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Index from './pages/Index';
 import APropos from './pages/APropos';
 import Collections from './pages/Collections';
@@ -25,7 +25,7 @@ function App() {
           createBrowserRouter([
             {
               path: "/",
-              element: <Navigate to="/maintenance" />,
+              element: <Index />,
               errorElement: <NotFound />
             },
             {
@@ -70,7 +70,7 @@ function App() {
             },
             {
               path: "/clients",
-              element: <MaintenanceGuard><Clients /></MaintenanceGuard>
+              element: <Clients />
             },
             {
               path: "/maintenance",

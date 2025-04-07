@@ -7,17 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import type { Database } from "@/integrations/supabase/types";
 
-interface Client {
-  id: string;
-  name: string;
-  email: string | null;
-  phone: string | null;
-  company: string | null;
-  address: string | null;
-  created_at: string;
-  updated_at: string;
-}
+type Client = Database['public']['Tables']['clients']['Row'];
 
 interface ClientFormProps {
   client: Client | null;
