@@ -47,7 +47,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      create_new_client: {
+        Args: {
+          user_id: string
+          user_name: string
+          user_email: string
+          user_company: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
