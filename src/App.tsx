@@ -29,7 +29,7 @@ function App() {
             },
             {
               path: "/accueil",
-              element: <MaintenanceGuard><Index /></MaintenanceGuard>
+              element: <Index />,
             },
             {
               path: "/about",
