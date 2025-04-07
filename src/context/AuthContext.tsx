@@ -143,40 +143,42 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         throw new Error("La création de l'utilisateur a échoué");
       }
 
-      // Récupérer le jeton d'accès de la session
-      const session = authData.session;
-      
-      // Important: Définir l'en-tête d'autorisation avec le jeton JWT
-      // pour contourner RLS lors de l'insertion initiale
-      const { data: clientData, error: clientError } = await supabase
-        .from("clients")
-        .insert([{ 
-          id: authData.user.id,
-          name, 
-          email,
-          company 
-        }])
-        .select()
-        .single();
+      // IMPORTANT: Utiliser une fonction de service côté serveur pour contourner RLS
+      // Cette fonction est directement exposée dans l'API REST et ignore les politiques RLS
+      const { data: clientData, error: clientError } = await supabase.rpc('create_new_client', {
+        user_id: authData.user.id,
+        user_name: name,
+        user_email: email,
+        user_company: company || null
+      });
 
       if (clientError) {
         console.error("Error inserting client:", clientError);
         throw new Error(clientError.message || "Erreur lors de l'ajout du client");
       }
 
-      if (clientData) {
-        setCurrentClient(clientData);
+      // Récupérer le client créé
+      const { data: newClient, error: fetchError } = await supabase
+        .from("clients")
+        .select("*")
+        .eq("id", authData.user.id)
+        .single();
+
+      if (fetchError) {
+        console.error("Error fetching new client:", fetchError);
+      } else if (newClient) {
+        setCurrentClient(newClient);
         setIsAuthenticated(true);
         setIsGuest(false);
         
         localStorage.setItem("authSession", JSON.stringify({
-          clientId: clientData.id,
+          clientId: newClient.id,
           isGuest: false
         }));
 
         toast({
           title: "Inscription réussie",
-          description: `Bienvenue, ${clientData.name}!`,
+          description: `Bienvenue, ${newClient.name}!`,
         });
       }
     } catch (error: any) {
