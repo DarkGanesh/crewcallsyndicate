@@ -41,12 +41,12 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const productOptions = [
-  { value: "notepad", label: "Bloc-Note Logo Avant" },
-  { value: "tshirt", label: "Tee-Shirt avec Logo" },
-  { value: "bottle", label: "Gourde Logo Bas" },
-  { value: "cup", label: "Gobelet EcoCup Logo Avant" },
-  { value: "vest", label: "Gilet Jaune Avec Logo" },
-  { value: "stickers", label: "Stickers Logo" },
+  { value: "notepad", label: "Bloc-Note" },
+  { value: "tshirt", label: "Tee-Shirt" },
+  { value: "bottle", label: "Gourde" },
+  { value: "cup", label: "Gobelet EcoCup" },
+  { value: "vest", label: "Gilet Jaune" },
+  { value: "stickers", label: "Stickers" },
   { value: "other", label: "Autre (précisez ci-dessous)" },
 ];
 
