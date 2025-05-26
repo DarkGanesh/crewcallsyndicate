@@ -56,6 +56,16 @@ const Footer = () => {
                 <Mail className="h-4 w-4 text-cinema-red" />
                 <span>Contact@crewcallsyndicate.com</span>
               </div>
+              <div className="flex items-center space-x-2 text-gray-400 mt-2">
+                <img 
+                  src="/lovable-uploads/1513f31c-cfec-43bd-96ae-900fabd09e8a.png" 
+                  alt="CrewCall Syndicate Logo" 
+                  className="h-6 w-auto" 
+                />
+                <a href="https://crewcallsyndicate.com" className="hover:text-cinema-red transition-colors">
+                  crewcallsyndicate.com
+                </a>
+              </div>
             </div>
           </div>
         </div>
