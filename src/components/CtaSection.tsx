@@ -25,18 +25,12 @@ const CtaSection = () => {
           <p className="text-gray-300 text-lg mb-8">
             Que vous soyez une production, un festival ou une école de cinéma, nous avons les solutions pour créer des goodies qui représentent votre identité.
           </p>
-          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center">
+          <div className="flex justify-center">
             <Link 
               to="/personnalisation" 
               className="button-cinema px-8 py-3 text-lg"
             >
               Commencer la Personnalisation
-            </Link>
-            <Link 
-              to="/contact" 
-              className="button-cinema-outline px-8 py-3 text-lg"
-            >
-              Demander un Devis
             </Link>
           </div>
         </div>
