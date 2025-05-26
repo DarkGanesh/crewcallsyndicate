@@ -1,8 +1,6 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
-const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
-
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -63,40 +61,37 @@ ${requestData.message ? `=== MESSAGE COMPLÉMENTAIRE ===\n${requestData.message}
 Cette demande a été envoyée depuis le site CrewCallSyndicate.
     `
 
-    if (!RESEND_API_KEY) {
-      console.log('Email simulation - Contenu:', emailContent)
-      return new Response(JSON.stringify({ 
-        success: true, 
-        message: 'Demande reçue avec succès (mode simulation)' 
-      }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200
-      })
+    // Envoyer l'email avec NotificationAPI
+    const notificationPayload = {
+      type: 'welcome',
+      to: {
+        email: 'contact@crewcallsyndicate.com'
+      },
+      email: {
+        subject: `Nouvelle demande de personnalisation - ${requestData.name}`,
+        html: emailContent.replace(/\n/g, '<br>')
+      }
     }
 
-    // Envoyer l'email avec Resend
-    const emailResponse = await fetch('https://api.resend.com/emails', {
+    console.log('Sending notification with payload:', notificationPayload)
+
+    const notificationResponse = await fetch('https://api.eu.notificationapi.com/sender', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
         'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + btoa('mnjskhma8m0r5ld7mu6rbs240l:geul07hbse7zxxeqzbxdk72remuc6gz0jlqv39c6nchgxh2egis1onqe1b')
       },
-      body: JSON.stringify({
-        from: 'CrewCallSyndicate <noreply@crewcallsyndicate.com>',
-        to: ['contact@crewcallsyndicate.com'],
-        subject: `Nouvelle demande de personnalisation - ${requestData.name}`,
-        text: emailContent,
-      }),
+      body: JSON.stringify(notificationPayload)
     })
 
-    if (!emailResponse.ok) {
-      const errorData = await emailResponse.text()
-      console.error('Resend API error:', errorData)
-      throw new Error('Erreur lors de l\'envoi de l\'email')
+    if (!notificationResponse.ok) {
+      const errorData = await notificationResponse.text()
+      console.error('NotificationAPI error:', errorData)
+      throw new Error('Erreur lors de l\'envoi de l\'email via NotificationAPI')
     }
 
-    const emailResult = await emailResponse.json()
-    console.log('Email sent successfully:', emailResult)
+    const notificationResult = await notificationResponse.json()
+    console.log('Email sent successfully via NotificationAPI:', notificationResult)
 
     return new Response(JSON.stringify({ 
       success: true, 
