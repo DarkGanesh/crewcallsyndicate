@@ -2,6 +2,7 @@
 import { useState } from "react";
 import HeroSection from "@/components/HeroSection";
 import FeaturedProducts from "@/components/FeaturedProducts";
+import CraftsmanshipSection from "@/components/CraftsmanshipSection";
 import FeatureSection from "@/components/FeatureSection";
 import CtaSection from "@/components/CtaSection";
 import Navbar from "@/components/Navbar";
@@ -23,6 +24,7 @@ const Index = () => {
       <main className="flex-grow">
         <HeroSection />
         <FeaturedProducts />
+        <CraftsmanshipSection />
         <FeatureSection />
         <CtaSection />
       </main>
