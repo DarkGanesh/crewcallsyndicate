@@ -35,7 +35,7 @@ const formSchema = z.object({
   }
   return true;
 }, {
-  message: "Veuillez spécifier le produit souhaité",
+  message: "Veuillez spécifier le produit souhaité (minimum 3 caractères)",
   path: ["customProduct"],
 });
 
@@ -74,26 +74,35 @@ const Personnalisation = () => {
     setIsSubmitting(true);
     
     try {
+      console.log('Submitting form data:', data);
+      
       const { data: response, error } = await supabase.functions.invoke('send-personalization-request', {
-        body: JSON.stringify(data)
+        body: data
       });
 
+      console.log('Supabase response:', response, 'Error:', error);
+
       if (error) {
+        console.error('Supabase error:', error);
         throw error;
       }
 
-      toast({
-        title: "Demande envoyée",
-        description: "Nous vous contacterons rapidement pour votre demande de personnalisation.",
-      });
-      
-      // Reset the form
-      form.reset();
+      if (response?.success) {
+        toast({
+          title: "Demande envoyée",
+          description: response.message || "Nous vous contacterons rapidement pour votre demande de personnalisation.",
+        });
+        
+        // Reset the form
+        form.reset();
+      } else {
+        throw new Error(response?.error || "Erreur inconnue");
+      }
     } catch (error) {
       console.error('Erreur lors de l\'envoi:', error);
       toast({
         title: "Erreur",
-        description: "Une erreur est survenue lors de l'envoi de votre demande. Veuillez réessayer.",
+        description: error.message || "Une erreur est survenue lors de l'envoi de votre demande. Veuillez réessayer.",
         variant: "destructive",
       });
     } finally {

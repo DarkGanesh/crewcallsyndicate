@@ -3,6 +3,11 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
+
 interface PersonalizationRequest {
   name: string
   email: string
@@ -16,12 +21,22 @@ interface PersonalizationRequest {
 }
 
 serve(async (req) => {
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders })
+  }
+
   if (req.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 })
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), { 
+      status: 405,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    })
   }
 
   try {
     const requestData: PersonalizationRequest = await req.json()
+    
+    console.log('Received personalization request:', requestData)
     
     // Construire le contenu de l'email
     const productDisplay = requestData.product === 'other' 
@@ -50,8 +65,11 @@ Cette demande a été envoyée depuis le site CrewCallSyndicate.
 
     if (!RESEND_API_KEY) {
       console.log('Email simulation - Contenu:', emailContent)
-      return new Response(JSON.stringify({ success: true, message: 'Email simulé envoyé' }), {
-        headers: { 'Content-Type': 'application/json' },
+      return new Response(JSON.stringify({ 
+        success: true, 
+        message: 'Demande reçue avec succès (mode simulation)' 
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200
       })
     }
@@ -64,7 +82,7 @@ Cette demande a été envoyée depuis le site CrewCallSyndicate.
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'CrewCallSyndicate <noreply@votre-domaine.com>',
+        from: 'CrewCallSyndicate <noreply@crewcallsyndicate.com>',
         to: ['contact@crewcallsyndicate.com'],
         subject: `Nouvelle demande de personnalisation - ${requestData.name}`,
         text: emailContent,
@@ -72,18 +90,29 @@ Cette demande a été envoyée depuis le site CrewCallSyndicate.
     })
 
     if (!emailResponse.ok) {
+      const errorData = await emailResponse.text()
+      console.error('Resend API error:', errorData)
       throw new Error('Erreur lors de l\'envoi de l\'email')
     }
 
-    return new Response(JSON.stringify({ success: true, message: 'Demande envoyée avec succès' }), {
-      headers: { 'Content-Type': 'application/json' },
+    const emailResult = await emailResponse.json()
+    console.log('Email sent successfully:', emailResult)
+
+    return new Response(JSON.stringify({ 
+      success: true, 
+      message: 'Demande envoyée avec succès' 
+    }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200
     })
 
   } catch (error) {
     console.error('Erreur:', error)
-    return new Response(JSON.stringify({ error: 'Erreur lors de l\'envoi de la demande' }), {
-      headers: { 'Content-Type': 'application/json' },
+    return new Response(JSON.stringify({ 
+      error: 'Erreur lors de l\'envoi de la demande',
+      details: error.message 
+    }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 500
     })
   }
