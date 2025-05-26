@@ -63,13 +63,14 @@ Cette demande a été envoyée depuis le site CrewCallSyndicate.
 
     // Envoyer l'email principal à contact@crewcallsyndicate.com
     const notificationPayload = {
-      type: 'welcome',
-      to: {
+      notificationId: 'welcome',
+      user: {
+        id: 'contact',
         email: 'contact@crewcallsyndicate.com'
       },
-      email: {
+      mergeTags: {
         subject: `Nouvelle demande de personnalisation - ${requestData.name}`,
-        html: emailContent.replace(/\n/g, '<br>')
+        message: emailContent.replace(/\n/g, '<br>')
       }
     }
 
@@ -79,7 +80,7 @@ Cette demande a été envoyée depuis le site CrewCallSyndicate.
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + btoa('mnjskhma8m0r5ld7mu6rbs240l:geul07hbse7zxxeqzbxdk72remuc6gz0jlqv39c6nchgxh2egis1onqe1b')
+        'Authorization': `Basic ${btoa('mnjskhma8m0r5ld7mu6rbs240l:geul07hbse7zxxeqzbxdk72remuc6gz0jlqv39c6nchgxh2egis1onqe1b')}`
       },
       body: JSON.stringify(notificationPayload)
     })
@@ -95,24 +96,17 @@ Cette demande a été envoyée depuis le site CrewCallSyndicate.
 
     // Envoyer une confirmation au client
     const confirmationPayload = {
-      type: 'welcome',
-      to: {
+      notificationId: 'welcome',
+      user: {
+        id: requestData.email,
         email: requestData.email
       },
-      email: {
+      mergeTags: {
         subject: 'Confirmation de votre demande de personnalisation',
-        html: `
-          <h2>Bonjour ${requestData.name},</h2>
-          <p>Nous avons bien reçu votre demande de personnalisation pour <strong>${productDisplay}</strong>.</p>
-          <p>Notre équipe va étudier votre demande et vous contacter rapidement pour vous proposer un devis personnalisé.</p>
-          <p>Détails de votre demande :</p>
-          <ul>
-            <li><strong>Produit :</strong> ${productDisplay}</li>
-            <li><strong>Quantité :</strong> ${requestData.quantity}</li>
-            <li><strong>Description :</strong> ${requestData.description}</li>
-          </ul>
-          <p>Merci de votre confiance,<br>L'équipe CrewCallSyndicate</p>
-        `
+        name: requestData.name,
+        product: productDisplay,
+        quantity: requestData.quantity.toString(),
+        description: requestData.description
       }
     }
 
@@ -122,7 +116,7 @@ Cette demande a été envoyée depuis le site CrewCallSyndicate.
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + btoa('mnjskhma8m0r5ld7mu6rbs240l:geul07hbse7zxxeqzbxdk72remuc6gz0jlqv39c6nchgxh2egis1onqe1b')
+        'Authorization': `Basic ${btoa('mnjskhma8m0r5ld7mu6rbs240l:geul07hbse7zxxeqzbxdk72remuc6gz0jlqv39c6nchgxh2egis1onqe1b')}`
       },
       body: JSON.stringify(confirmationPayload)
     })
