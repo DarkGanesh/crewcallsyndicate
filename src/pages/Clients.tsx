@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -27,9 +26,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import type { Database } from "@/integrations/supabase/types";
-
-type Client = Database['public']['Tables']['clients']['Row'];
+import type { Client } from "@/types/database";
 
 const Clients = () => {
   const [clients, setClients] = useState<Client[]>([]);
@@ -69,7 +66,7 @@ const Clients = () => {
       
       if (error) throw error;
       
-      setClients(data || []);
+      setClients((data || []) as Client[]);
     } catch (error: any) {
       console.error("Error fetching clients:", error);
       toast({

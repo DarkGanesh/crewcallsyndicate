@@ -1,9 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import type { Database } from "@/integrations/supabase/types";
-
-type Client = Database['public']['Tables']['clients']['Row'];
+import type { Client } from "@/types/database";
 
 export interface AuthSessionState {
   isAuthenticated: boolean;
@@ -66,7 +64,7 @@ export function useAuthSession() {
         
         if (data) {
           setSessionState({
-            currentClient: data,
+            currentClient: data as Client,
             isAuthenticated: true,
             isGuest: false
           });
@@ -97,7 +95,7 @@ export function useAuthSession() {
       if (data) {
         setSessionState(prevState => ({
           ...prevState,
-          currentClient: data,
+          currentClient: data as Client,
           isAuthenticated: true
         }));
       }

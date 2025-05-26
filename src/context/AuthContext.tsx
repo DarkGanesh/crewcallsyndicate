@@ -1,11 +1,8 @@
-
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuthSession } from "@/hooks/useAuthSession";
 import { authService } from "@/services/authService";
-import type { Database } from "@/integrations/supabase/types";
-
-type Client = Database['public']['Tables']['clients']['Row'];
+import type { Client } from "@/types/database";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -39,6 +36,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const clientData = await authService.login(email, password);
       
+      if (!clientData) {
+        throw new Error("Aucune donnée client reçue");
+      }
+      
       setSessionState({
         isAuthenticated: true,
         isGuest: false,
@@ -52,7 +53,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       toast({
         title: "Connexion réussie",
-        description: `Bienvenue, ${clientData?.name || email.split('@')[0]}!`,
+        description: `Bienvenue, ${clientData.name || email.split('@')[0]}!`,
       });
     } catch (error: any) {
       console.error("Login error:", error);
@@ -68,6 +69,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (email: string, password: string, name: string, company?: string) => {
     try {
       const newClient = await authService.register(email, password, name, company);
+      
+      if (!newClient) {
+        throw new Error("Aucune donnée client reçue");
+      }
       
       setSessionState({
         isAuthenticated: true,

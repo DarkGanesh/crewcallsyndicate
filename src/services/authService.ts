@@ -1,11 +1,9 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import type { Database } from "@/integrations/supabase/types";
-
-type Client = Database['public']['Tables']['clients']['Row'];
+import type { Client } from "@/types/database";
 
 export const authService = {
-  async login(email: string, password: string) {
+  async login(email: string, password: string): Promise<Client> {
     // Simple email validation
     if (!email.includes("@")) {
       throw new Error("Format d'email invalide");
@@ -49,16 +47,16 @@ export const authService = {
           throw createError;
         }
         
-        return newClient;
+        return newClient as Client;
       } else {
         throw clientError;
       }
     }
     
-    return clientData;
+    return clientData as Client;
   },
 
-  async register(email: string, password: string, name: string, company?: string) {
+  async register(email: string, password: string, name: string, company?: string): Promise<Client> {
     // Simple email validation
     if (!email.includes("@")) {
       throw new Error("Format d'email invalide");
@@ -103,7 +101,7 @@ export const authService = {
       throw fetchError;
     }
     
-    return newClient;
+    return newClient as Client;
   },
 
   async logout() {
