@@ -7,15 +7,12 @@ import Collections from './pages/Collections';
 import MentionsLegales from './pages/MentionsLegales';
 import Personnalisation from './pages/Personnalisation';
 import NotFound from './pages/NotFound';
-import Cart from './pages/Cart';
-import Contact from './pages/Contact';
 import { Toaster } from "@/components/ui/toaster"
 import { CartProvider } from '@/context/CartContext';
 import { AuthProvider } from '@/context/AuthContext';
 import Maintenance from './pages/Maintenance';
 import MaintenanceGuard from './components/MaintenanceGuard';
 import NotebookDetail from './pages/NotebookDetail';
-import Clients from './pages/Clients';
 
 function App() {
   return (
@@ -54,20 +51,8 @@ function App() {
                 element: <MaintenanceGuard><NotFound /></MaintenanceGuard>
               },
               {
-                path: "/cart",
-                element: <MaintenanceGuard><Cart /></MaintenanceGuard>
-              },
-              {
-                path: "/contact",
-                element: <MaintenanceGuard><Contact /></MaintenanceGuard>
-              },
-              {
                 path: "/produit/:id",
                 element: <MaintenanceGuard><NotebookDetail /></MaintenanceGuard>
-              },
-              {
-                path: "/clients",
-                element: <MaintenanceGuard><Clients /></MaintenanceGuard>
               },
               {
                 path: "/maintenance",
