@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   name: z.string().min(3, { message: "Le nom doit contenir au moins 3 caractères" }),
@@ -74,35 +73,55 @@ const Personnalisation = () => {
     setIsSubmitting(true);
     
     try {
-      console.log('Submitting form data:', data);
+      console.log('Form data:', data);
       
-      const { data: response, error } = await supabase.functions.invoke('send-personalization-request', {
-        body: data
+      // Get product label for email
+      const selectedProductLabel = data.product === "other" 
+        ? data.customProduct 
+        : productOptions.find(option => option.value === data.product)?.label;
+      
+      // Construct email body
+      const emailBody = `Bonjour,
+
+Je souhaite faire une demande de devis pour la personnalisation suivante :
+
+INFORMATIONS CLIENT :
+- Nom : ${data.name}
+- Email : ${data.email}
+- Téléphone : ${data.phone}
+${data.company ? `- Société/Production : ${data.company}` : ''}
+
+DÉTAILS DU PRODUIT :
+- Produit : ${selectedProductLabel}
+- Quantité : ${data.quantity} unités
+- Description de la personnalisation : ${data.description}
+
+${data.message ? `MESSAGE COMPLÉMENTAIRE :\n${data.message}` : ''}
+
+Cordialement,
+${data.name}`;
+
+      // Create mailto URL
+      const subject = `${data.name} - Demande de devis`;
+      const to = 'Contact@crewcallsyndicate.com';
+      
+      const mailtoUrl = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+      
+      // Open email client
+      window.location.href = mailtoUrl;
+      
+      toast({
+        title: "Client de messagerie ouvert",
+        description: "Votre client de messagerie s'est ouvert avec les informations pré-remplies.",
       });
-
-      console.log('Supabase response:', response, 'Error:', error);
-
-      if (error) {
-        console.error('Supabase error:', error);
-        throw error;
-      }
-
-      if (response?.success) {
-        toast({
-          title: "Demande envoyée",
-          description: response.message || "Nous vous contacterons rapidement pour votre demande de personnalisation.",
-        });
-        
-        // Reset the form
-        form.reset();
-      } else {
-        throw new Error(response?.error || "Erreur inconnue");
-      }
+      
+      // Reset the form
+      form.reset();
     } catch (error) {
-      console.error('Erreur lors de l\'envoi:', error);
+      console.error('Erreur:', error);
       toast({
         title: "Erreur",
-        description: error.message || "Une erreur est survenue lors de l'envoi de votre demande. Veuillez réessayer.",
+        description: "Une erreur est survenue. Veuillez réessayer.",
         variant: "destructive",
       });
     } finally {
@@ -318,7 +337,7 @@ const Personnalisation = () => {
                       className="button-cinema w-full flex items-center justify-center"
                     >
                       <Send className="h-4 w-4 mr-2" />
-                      {isSubmitting ? "Envoi en cours..." : "Envoyer la demande"}
+                      {isSubmitting ? "Ouverture de l'email..." : "Envoyer la demande"}
                     </Button>
                   </div>
                 </form>
