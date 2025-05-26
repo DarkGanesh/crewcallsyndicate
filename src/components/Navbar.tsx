@@ -1,21 +1,13 @@
 
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { Menu, X, User } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
-import LoginPopup from "@/components/auth/LoginPopup";
+import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const { isAuthenticated, currentClient, isGuest, logout } = useAuth();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-  };
-
-  const toggleLogin = () => {
-    setIsLoginOpen(!isLoginOpen);
   };
 
   return (
@@ -53,22 +45,7 @@ const Navbar = () => {
             </li>
           </ul>
         </nav>
-        
-        <div className="flex items-center space-x-4">
-          <button 
-            className="relative text-white hover:text-cinema-red transition-colors"
-            onClick={toggleLogin}
-            aria-label={isAuthenticated ? "Profil" : "Connexion"}
-          >
-            <User className="h-6 w-6" />
-            {isAuthenticated && !isGuest && (
-              <span className="absolute -top-2 -right-2 bg-cinema-red text-white text-xs rounded-full w-3 h-3"></span>
-            )}
-          </button>
-        </div>
       </div>
-      
-      <LoginPopup isOpen={isLoginOpen} onClose={toggleLogin} />
     </header>
   );
 };
