@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   name: z.string().min(3, { message: "Le nom doit contenir au moins 3 caractères" }),
@@ -21,12 +22,21 @@ const formSchema = z.object({
   product: z.string({
     required_error: "Veuillez sélectionner un produit",
   }),
+  customProduct: z.string().optional(),
   quantity: z.coerce.number({
     required_error: "Veuillez indiquer une quantité",
     invalid_type_error: "La quantité doit être un nombre",
   }).min(1, { message: "La quantité minimum est de 1" }),
   description: z.string().min(10, { message: "La description doit contenir au moins 10 caractères" }),
   message: z.string().optional(),
+}).refine((data) => {
+  if (data.product === "other" && (!data.customProduct || data.customProduct.trim().length < 3)) {
+    return false;
+  }
+  return true;
+}, {
+  message: "Veuillez spécifier le produit souhaité",
+  path: ["customProduct"],
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -38,9 +48,11 @@ const productOptions = [
   { value: "cup", label: "Gobelet EcoCup Logo Avant" },
   { value: "vest", label: "Gilet Jaune Avec Logo" },
   { value: "stickers", label: "Stickers Logo" },
+  { value: "other", label: "Autre (précisez ci-dessous)" },
 ];
 
 const Personnalisation = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,35 +61,44 @@ const Personnalisation = () => {
       phone: "",
       company: "",
       product: "",
+      customProduct: "",
       quantity: 1,
       description: "",
       message: "",
     },
   });
   
-  const onSubmit = (data: FormValues) => {
-    console.log("Form submitted:", data);
+  const selectedProduct = form.watch("product");
+  
+  const onSubmit = async (data: FormValues) => {
+    setIsSubmitting(true);
     
-    // For demo purposes, simulate sending an email
-    console.log("Envoi d'un e-mail à contact@crewcallsyndicate.com avec les détails suivants:");
-    console.log({
-      contactName: data.name,
-      contactEmail: data.email,
-      contactPhone: data.phone,
-      company: data.company,
-      product: data.product,
-      quantity: data.quantity,
-      description: data.description,
-      message: data.message
-    });
-    
-    toast({
-      title: "Demande envoyée",
-      description: "Nous vous contacterons rapidement pour votre demande de personnalisation.",
-    });
-    
-    // Reset the form
-    form.reset();
+    try {
+      const { data: response, error } = await supabase.functions.invoke('send-personalization-request', {
+        body: JSON.stringify(data)
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Demande envoyée",
+        description: "Nous vous contacterons rapidement pour votre demande de personnalisation.",
+      });
+      
+      // Reset the form
+      form.reset();
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de l'envoi de votre demande. Veuillez réessayer.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   return (
@@ -202,6 +223,26 @@ const Personnalisation = () => {
                       )}
                     />
                     
+                    {selectedProduct === "other" && (
+                      <FormField
+                        control={form.control}
+                        name="customProduct"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-white">Précisez le produit souhaité *</FormLabel>
+                            <FormControl>
+                              <Input 
+                                className="bg-cinema-black border-gray-700 text-white"
+                                placeholder="Décrivez le produit que vous souhaitez personnaliser"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage className="text-cinema-red" />
+                          </FormItem>
+                        )}
+                      />
+                    )}
+                    
                     <FormField
                       control={form.control}
                       name="quantity"
@@ -264,10 +305,11 @@ const Personnalisation = () => {
                   <div className="pt-4">
                     <Button 
                       type="submit"
+                      disabled={isSubmitting}
                       className="button-cinema w-full flex items-center justify-center"
                     >
                       <Send className="h-4 w-4 mr-2" />
-                      Envoyer la demande
+                      {isSubmitting ? "Envoi en cours..." : "Envoyer la demande"}
                     </Button>
                   </div>
                 </form>
