@@ -10,7 +10,6 @@ import NotFound from './pages/NotFound';
 import Cart from './pages/Cart';
 import Contact from './pages/Contact';
 import { Toaster } from "@/components/ui/toaster"
-import MarquageTextile from './pages/MarquageTextile';
 import { CartProvider } from '@/context/CartContext';
 import { AuthProvider } from '@/context/AuthContext';
 import Maintenance from './pages/Maintenance';
@@ -61,10 +60,6 @@ function App() {
               {
                 path: "/contact",
                 element: <MaintenanceGuard><Contact /></MaintenanceGuard>
-              },
-              {
-                path: "/marquage-textile",
-                element: <MaintenanceGuard><MarquageTextile /></MaintenanceGuard>
               },
               {
                 path: "/produit/:id",

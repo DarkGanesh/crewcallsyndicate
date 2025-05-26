@@ -49,11 +49,6 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li className="mt-3 lg:mt-0 lg:mr-8">
-              <NavLink to="/marquage-textile" className={({ isActive }) => isActive ? 'text-cinema-red' : 'hover:text-cinema-red transition-colors'}>
-                Marquage Textile
-              </NavLink>
-            </li>
-            <li className="mt-3 lg:mt-0 lg:mr-8">
               <NavLink to="/about" className={({ isActive }) => isActive ? 'text-cinema-red' : 'hover:text-cinema-red transition-colors'}>
                 À Propos
               </NavLink>
