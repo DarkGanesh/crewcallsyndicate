@@ -61,7 +61,7 @@ ${requestData.message ? `=== MESSAGE COMPLÉMENTAIRE ===\n${requestData.message}
 Cette demande a été envoyée depuis le site CrewCallSyndicate.
     `
 
-    // Envoyer l'email avec NotificationAPI
+    // Envoyer l'email principal à contact@crewcallsyndicate.com
     const notificationPayload = {
       type: 'welcome',
       to: {
@@ -73,7 +73,7 @@ Cette demande a été envoyée depuis le site CrewCallSyndicate.
       }
     }
 
-    console.log('Sending notification with payload:', notificationPayload)
+    console.log('Sending notification to contact@crewcallsyndicate.com:', notificationPayload)
 
     const notificationResponse = await fetch('https://api.eu.notificationapi.com/sender', {
       method: 'POST',
@@ -92,6 +92,49 @@ Cette demande a été envoyée depuis le site CrewCallSyndicate.
 
     const notificationResult = await notificationResponse.json()
     console.log('Email sent successfully via NotificationAPI:', notificationResult)
+
+    // Envoyer une confirmation au client
+    const confirmationPayload = {
+      type: 'welcome',
+      to: {
+        email: requestData.email
+      },
+      email: {
+        subject: 'Confirmation de votre demande de personnalisation',
+        html: `
+          <h2>Bonjour ${requestData.name},</h2>
+          <p>Nous avons bien reçu votre demande de personnalisation pour <strong>${productDisplay}</strong>.</p>
+          <p>Notre équipe va étudier votre demande et vous contacter rapidement pour vous proposer un devis personnalisé.</p>
+          <p>Détails de votre demande :</p>
+          <ul>
+            <li><strong>Produit :</strong> ${productDisplay}</li>
+            <li><strong>Quantité :</strong> ${requestData.quantity}</li>
+            <li><strong>Description :</strong> ${requestData.description}</li>
+          </ul>
+          <p>Merci de votre confiance,<br>L'équipe CrewCallSyndicate</p>
+        `
+      }
+    }
+
+    console.log('Sending confirmation to client:', confirmationPayload)
+
+    const confirmationResponse = await fetch('https://api.eu.notificationapi.com/sender', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + btoa('mnjskhma8m0r5ld7mu6rbs240l:geul07hbse7zxxeqzbxdk72remuc6gz0jlqv39c6nchgxh2egis1onqe1b')
+      },
+      body: JSON.stringify(confirmationPayload)
+    })
+
+    if (!confirmationResponse.ok) {
+      const confirmationErrorData = await confirmationResponse.text()
+      console.error('NotificationAPI confirmation error:', confirmationErrorData)
+      // Ne pas faire échouer la fonction si la confirmation ne peut pas être envoyée
+    } else {
+      const confirmationResult = await confirmationResponse.json()
+      console.log('Confirmation email sent successfully:', confirmationResult)
+    }
 
     return new Response(JSON.stringify({ 
       success: true, 
