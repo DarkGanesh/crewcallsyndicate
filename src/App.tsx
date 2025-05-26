@@ -10,8 +10,6 @@ import NotFound from './pages/NotFound';
 import { Toaster } from "@/components/ui/toaster"
 import { CartProvider } from '@/context/CartContext';
 import { AuthProvider } from '@/context/AuthContext';
-import Maintenance from './pages/Maintenance';
-import MaintenanceGuard from './components/MaintenanceGuard';
 import NotebookDetail from './pages/NotebookDetail';
 
 function App() {
@@ -23,44 +21,40 @@ function App() {
             createBrowserRouter([
               {
                 path: "/",
-                element: <MaintenanceGuard><Index /></MaintenanceGuard>,
+                element: <Index />,
                 errorElement: <NotFound />
               },
               {
                 path: "/accueil",
-                element: <MaintenanceGuard><Index /></MaintenanceGuard>,
+                element: <Index />,
               },
               {
                 path: "/about",
-                element: <MaintenanceGuard><APropos /></MaintenanceGuard>
+                element: <APropos />
               },
               {
                 path: "/collections",
-                element: <MaintenanceGuard><Collections /></MaintenanceGuard>
+                element: <Collections />
               },
               {
                 path: "/mentions-legales",
-                element: <MaintenanceGuard><MentionsLegales /></MaintenanceGuard>
+                element: <MentionsLegales />
               },
               {
                 path: "/personnalisation",
-                element: <MaintenanceGuard><Personnalisation /></MaintenanceGuard>
+                element: <Personnalisation />
               },
               {
                 path: "/404",
-                element: <MaintenanceGuard><NotFound /></MaintenanceGuard>
+                element: <NotFound />
               },
               {
                 path: "/produit/:id",
-                element: <MaintenanceGuard><NotebookDetail /></MaintenanceGuard>
-              },
-              {
-                path: "/maintenance",
-                element: <Maintenance />
+                element: <NotebookDetail />
               },
               {
                 path: "*",
-                element: <MaintenanceGuard><NotFound /></MaintenanceGuard>
+                element: <NotFound />
               }
             ])
           }
